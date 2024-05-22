@@ -16,10 +16,26 @@
             height: 600px;
             width: 100%;
         }
+        #pinCreateForm{
+            display: none;
+            position: absolute;
+            background: white;
+            padding: 10px;
+            border: 5px  black;
+            z-index: 10000;
+        }
     </style>
 </head>
 <body>
     <div id="map"></div>
+    <div id="pinCreateForm">
+        <label for="pinTitle">Title:</label>
+        <input type="text" id="pinTitle" name="pinTitle" /><br>
+        <label for="pinDescription">Description:</label>
+        <input type="text" id="pinDescription" name="pinDescription" /><br>
+        <button id="savePin">Save Pin</button>
+        <button id="cancelPin">Cancel Pin</button>
+    </div>
 
     <script>
         var map = L.map('map').setView([58.31, 15.09], 13); // Center the map and set zoom level
@@ -27,19 +43,45 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // Example: Adding a marker
-        var marker = L.marker([58.31, 15.09]).addTo(map)
-            .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-            .openPopup();
+
+        var marker;
+        var lat, lng
 
         function onMapClick(e) {
-            var lat = e.latlng.lat;
-            var lng = e.latlng.lng;
+            lat = e.latlng.lat;
+            lng = e.latlng.lng;
 
-            L.marker([lat, lng]).addTo(map)
-                .bindPopup('You clicked the map at <br> Latitude: ' + lat + '<br> Longitude: ' + lng)
-                .openPopup();
+            var pinForm = document.getElementById('pinCreateForm');
+            pinForm.style.left = e.containerPoint.x + 'px';
+            pinForm.style.top = e.containerPoint.y + 'px';
+            pinForm.style.display = 'block';
+
         }
+
+        function clearForm() {
+            document.getElementById('pinTitle').value = '';
+            document.getElementById('pinDescription').value = '';
+        }
+        
+        document.getElementById('savePin').addEventListener('click', function () {
+            var title = document.getElementById('pinTitle').value;
+            var description = document.getElementById('pinDescription').value;
+
+            
+            marker = L.marker([lat, lng]).addTo(map)
+                .bindPopup('<b>' + title + '</b><br>' + description)
+                .openPopup();
+
+            var pinForm = document.getElementById('pinCreateForm');
+            pinForm.style.display = 'none';
+            clearForm();
+        });
+        document.getElementById('cancelPin').addEventListener('click', function () {
+            var pinForm = document.getElementById('pinCreateForm');
+            clearForm();
+            pinForm.style.display = 'none';
+        });
+
         map.on('click', onMapClick);
     </script>
 
