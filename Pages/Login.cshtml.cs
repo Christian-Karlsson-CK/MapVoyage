@@ -9,13 +9,14 @@ namespace WebApplication1testingRazor.Pages
     public class LoginModel : PageModel
     {
         [BindProperty]
-        public string Username { get; set; }
+        public string? Username { get; set; }
 
         [BindProperty]
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
         public void OnGet()
         {
+
         }
 
         public IActionResult OnPost()
