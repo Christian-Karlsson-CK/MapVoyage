@@ -36,11 +36,13 @@
             z-index: 10000;
             
         }
+
     </style>
 </head>
 <body>
     <div id="map"></div>
     <div id="sidebar">
+        <input type="text" id="searchBar" placeholder="Search for pins..." oninput="filterPins()">
         <div id="info">Click on a marker to see details here.</div>
     </div>
     <div id="pinCreateForm">
@@ -59,9 +61,7 @@
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
-
-
-        
+   
         var lat, lng
 
         function onMapClick(e) {
@@ -122,6 +122,22 @@
             var pinForm = document.getElementById('pinCreateForm');
             pinForm.style.display = 'none';
             clearForm();
+
+            // Function to filter pins based on search input (funkar inte)
+            function filterPins() {
+                var searchText = document.getElementById('searchBar').value.toLowerCase();
+                markers.forEach(marker => map.removeLayer(marker)); // Remove existing markers
+                markers = []; // Clear the markers array
+
+                var filteredData = pinsData.filter(pin =>
+                    pin.title.toLowerCase().includes(searchText) ||
+                    pin.description.toLowerCase().includes(searchText)
+                );
+                addPins(filteredData); // Add filtered pins to the map
+            }
+
+            // Initial load of pins
+            addPins(pinsData);
         });
         document.getElementById('cancelPin').addEventListener('click', function () {
             var pinForm = document.getElementById('pinCreateForm');
@@ -129,8 +145,10 @@
             pinForm.style.display = 'none';
         });
 
-
         map.on('click', onMapClick);
+
+
+        
     </script>
 
 
