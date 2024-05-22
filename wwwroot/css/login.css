@@ -1,0 +1,53 @@
+﻿.login-container {
+    background-color: #ffffff; /* Grå bakgrundsfärg */
+    border: 2px solid #000000; /* Grå border */
+    border-radius: 5px; /* Avrunda hörnen */
+    padding: 20px; /* Lägg till utrymme runt innehållet */
+    max-width: 400px; /* Begränsa bredden för innehållet */
+    margin: auto; 
+}
+
+h1 {
+    text-align: center; /* Centrera rubriken */
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+    .form-group label {
+        font-weight: bold;
+    }
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+}
+
+.btn-primary {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+}
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+.register-link {
+    text-align: center;
+    margin-top: 10px;
+}
+
+    .register-link a {
+        color: #007bff;
+    }
