@@ -27,8 +27,13 @@ namespace WebApplication1testingRazor
 			app.UseAuthorization();
 
 			app.MapRazorPages();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages();
+                endpoints.MapFallbackToPage("/Login");
+            });
 
-			app.Run();
+            app.Run();
 		}
 	}
 }
