@@ -61,7 +61,7 @@
         }).addTo(map);
 
 
-        var marker;
+        
         var lat, lng
 
         function onMapClick(e) {
@@ -102,19 +102,22 @@
             
             var marker = L.marker([lat, lng]).addTo(map)
             
+            if (imageFile) {
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    var imageUrl = event.target.result;
 
-            var reader = new FileReader();
-            reader.onload = function (event) {
-                var imageUrl = event.target.result;
+                    marker.on('click', function () {
+                        document.getElementById('info').innerHTML = '<b>' + title + '</b><br>' + description + '<br><img src="' + imageUrl + '" alt="' + title + '" style="max-width: 100%; height: auto;">';
+                    });
+                };
 
-                var marker = L.marker([lat, lng]).addTo(map);
-
+                reader.readAsDataURL(imageFile);
+            } else {
                 marker.on('click', function () {
-                    document.getElementById('info').innerHTML = '<b>' + title + '</b><br>' + description + '<br><img src="' + imageUrl + '" alt="' + title + '" style="max-width: 100%; height: auto;">';
+                    document.getElementById('info').innerHTML = '<b>' + title + '</b><br>' + description;
                 });
-            };
-
-            reader.readAsDataURL(imageFile);
+            }
 
             var pinForm = document.getElementById('pinCreateForm');
             pinForm.style.display = 'none';
