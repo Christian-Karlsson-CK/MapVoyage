@@ -67,8 +67,8 @@
             lng = e.latlng.lng;
 
             var pinForm = document.getElementById('pinCreateForm');
-            pinForm.style.left = e.containerPoint.x + 'px';
-            pinForm.style.top = e.containerPoint.y + 'px';
+            pinForm.style.left = e.originalEvent.pageX + 'px';
+            pinForm.style.top = e.originalEvent.pageY + 'px';
             pinForm.style.display = 'block';
 
         }
