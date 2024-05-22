@@ -16,6 +16,16 @@
             height: 600px;
             width: 100%;
         }
+
+        #sidebar {
+            width: 20%;
+            padding: 10px;
+            background-color: #f4f4f4;
+            overflow-y: auto;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            float: left;
+        }
+
         #pinCreateForm{
             display: none;
             position: absolute;
@@ -28,6 +38,9 @@
 </head>
 <body>
     <div id="map"></div>
+    <div id="sidebar">
+        <div id="info">Click on a marker to see details here.</div>
+    </div>
     <div id="pinCreateForm">
         <label for="pinTitle">Title:</label>
         <input type="text" id="pinTitle" name="pinTitle" /><br>
@@ -68,9 +81,12 @@
             var description = document.getElementById('pinDescription').value;
 
             
-            marker = L.marker([lat, lng]).addTo(map)
-                .bindPopup('<b>' + title + '</b><br>' + description)
-                .openPopup();
+            var marker = L.marker([lat, lng]).addTo(map)
+            
+
+            marker.on('click', function () {
+                document.getElementById('info').innerHTML = '<b>' + title + '</b><br>' + description;
+            });
 
             var pinForm = document.getElementById('pinCreateForm');
             pinForm.style.display = 'none';
@@ -81,6 +97,7 @@
             clearForm();
             pinForm.style.display = 'none';
         });
+
 
         map.on('click', onMapClick);
     </script>
