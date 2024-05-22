@@ -31,6 +31,16 @@
         var marker = L.marker([58.31, 15.09]).addTo(map)
             .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
             .openPopup();
+
+        function onMapClick(e) {
+            var lat = e.latlng.lat;
+            var lng = e.latlng.lng;
+
+            L.marker([lat, lng]).addTo(map)
+                .bindPopup('You clicked the map at <br> Latitude: ' + lat + '<br> Longitude: ' + lng)
+                .openPopup();
+        }
+        map.on('click', onMapClick);
     </script>
 
 
