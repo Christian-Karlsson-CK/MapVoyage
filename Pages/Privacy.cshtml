@@ -41,10 +41,15 @@
 </head>
 <body>
     <div id="map"></div>
+    <div id="map" style="height: 400px;"></div>
+    <input type="text" id="searchInput" placeholder="Enter location">
+    <button onclick="searchLocation()">Search</button>
     <div id="sidebar">
-        <input type="text" id="searchBar" placeholder="Search for pins..." oninput="filterPins()">
+        <!--<input type="text" id="searchBar" placeholder="Search for pins..." oninput="filterPins()">-->
         <div id="info">Click on a marker to see details here.</div>
     </div>
+   
+
     <div id="pinCreateForm">
         <label for="pinTitle">Title:</label>
         <input type="text" id="pinTitle" name="pinTitle" /><br>
@@ -161,6 +166,29 @@
         <button type="submit" class="btn btn-primary">Submit Coordinates</button>
     </form>
 
+    <script>
+        function searchLocation() {
+            var searchTerm = document.getElementById('searchInput').value;
+            var url = 'https://nominatim.openstreetmap.org/search?format=json&q=' + searchTerm;
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function (data) {
+                    if (data && data.length > 0) {
+                        var lat = parseFloat(data[0].lat);
+                        var lon = parseFloat(data[0].lon);
+                        map.setView([lat, lon], 13);
+                    } else {
+                        alert('Location not found');
+                    }
+                },
+                error: function () {
+                    alert('Error occurred while searching for location');
+                }
+            });
+        }
+    </script>
 
 </body>
 </html>
