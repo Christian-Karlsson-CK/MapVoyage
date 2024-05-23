@@ -1,5 +1,5 @@
 ﻿@page
-@model PrivacyModel
+@model WebApplication1testingRazor.Pages.PrivacyModel
 @{
     ViewData["Title"] = "Privacy Policy";
 }
@@ -41,8 +41,19 @@
 </head>
 <body>
     <div id="map"></div>
-    <input type="text" id="searchInput" placeholder="Enter location">
-    <button onclick="searchLocation()">Search</button>
+    <div id="searchBar">
+        <input type="text" id="searchInput" placeholder="Enter location...">
+        <button onclick="searchLocation()">Search</button>
+    </div>
+    <div id="filterBar">
+        <select id="cityFilter">
+            <option value="">Select City</option>
+            <option value="New York">New York</option>
+            <option value="London">London</option>
+            <!-- Add more city options as needed -->
+        </select>
+        <button id="filterButton">Filter</button>
+    </div>
     <div id="sidebar">
         <!--<input type="text" id="searchBar" placeholder="Search for pins..." oninput="filterPins()">-->
         <div id="info">Click on a marker to see details here.</div>
@@ -60,6 +71,9 @@
         <button id="cancelPin">Cancel Pin</button>
     </div>
 
+    <script src="~/js/search.js"></script>
+    <script src="~/js/filter.js"></script>
+
     <script>
         var map = L.map('map').setView([58.31, 15.09], 13); // Center the map and set zoom level
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -67,6 +81,23 @@
         }).addTo(map);
    
         var lat, lng
+
+        // Make a search by tab to search button and press 'Enter' key
+        $(document).ready(function () {    
+            $('#searchInput').keydown(function (e) {
+                if (e.key === 'Enter') { // Use 'Enter' for better readability
+                    e.preventDefault(); // Prevent form submission if within a form
+                    searchLocation();
+                }
+            });
+            ('#filterButton').click(function () {
+                filterLocations();
+            });
+
+            $('#cityFilter').change(function () {
+                filterLocations();
+            });
+        });
 
         function onMapClick(e) {
             lat = e.latlng.lat;
@@ -164,30 +195,6 @@
         <input id="description" name="Description" />
         <button type="submit" class="btn btn-primary">Submit Coordinates</button>
     </form>
-
-    <script>
-        function searchLocation() {
-            var searchTerm = document.getElementById('searchInput').value;
-            var url = 'https://nominatim.openstreetmap.org/search?format=json&q=' + searchTerm;
-
-            $.ajax({
-                url: url,
-                type: 'GET',
-                success: function (data) {
-                    if (data && data.length > 0) {
-                        var lat = parseFloat(data[0].lat);
-                        var lon = parseFloat(data[0].lon);
-                        map.setView([lat, lon], 13);
-                    } else {
-                        alert('Location not found');
-                    }
-                },
-                error: function () {
-                    alert('Error occurred while searching for location');
-                }
-            });
-        }
-    </script>
 
 </body>
 </html>
