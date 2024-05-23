@@ -11,58 +11,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Map</title>
-    <style>
-        #map {
-            height: 600px;
-            width: 80%;
-            float: right;
-        }
-
-        #sidebar {
-            width: 20%;
-            padding: 10px;
-            background-color: #f4f4f4;
-            overflow-y: auto;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-            float: left;
-        }
-
-        #pinCreateForm{
-            display: none;
-            position: absolute;
-            background: white;
-            padding: 10px;
-            border: 5px  black;
-            z-index: 10000;
-            
-        }
-        
-
-        #toolbar {
-            display:flex;
-            width: 80%;
-            padding: 10px;
-            background-color: #333;
-            color: white;
-            align-content: flex-start;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            float:right;
-        }
-
-        #toolbar button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        #toolbar button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <link rel="stylesheet" href="~/css/mapView.css" />
 </head>
 <body>
     <div id="toolbar">
