@@ -8,6 +8,10 @@ namespace WebApplication1testingRazor.Pages
     {
         private readonly ILogger<PrivacyModel> _logger;
 
+        //Variables used when a pin is clicked to store its retrieved data.
+        public string PinTitle { get; private set; }
+        public string PinDescription { get; private set; }
+
         public PrivacyModel(ILogger<PrivacyModel> logger)
         {
             _logger = logger;
@@ -29,6 +33,17 @@ namespace WebApplication1testingRazor.Pages
             //_logger.LogInformation("Received coordinates: Latitude = {Latitude}, Longitude = {Longitude}", latitude, longitude);
 
             return Page();
+        }
+
+        //GET method for retriving Pin data.
+        public void OnGetPinData(string id)
+        {
+            Console.WriteLine("Reached OnGetPinData method");
+
+            //TODO Get real pindata here
+
+            PinTitle = "PinTitle";
+            PinDescription = "PinDesc";
         }
     }
 }
