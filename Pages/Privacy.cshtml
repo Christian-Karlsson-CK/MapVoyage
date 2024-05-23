@@ -146,6 +146,38 @@
     </form>
 
 
+    
+    <!-- Testing retriving pindata from backend
+    <div id="dataContainer">
+        @if (Model.PinDescription != null)
+        {
+            <h2>@Model.PinTitle</h2>
+        }
+        else
+        {
+            <h2>No Title</h2>
+        }
+        
+        @if (Model.PinDescription != null)
+        {
+            <p>@Model.PinDescription</p>
+        }
+        else
+        {
+            <p>No desc</p>
+        }
+    </div> -->
+
+    <!--This is a hidden form to assign a pin ID to when a pin is selected by the user to retrieve pin data to be displayed. 
+        The input named handler is needed to navigate to correct OnGet() method as asp.pages-handler can only be used on POST.
+    -->
+    <form id="GetPinDataForm" method="get" style="display: none;">
+        <input id="id" name="Id" />
+        <input id="handler" name="Handler" value="PinData" />
+        <button type="submit" class="btn btn-primary">Submit PinID</button>
+    </form>
+
+
 </body>
 </html>
 
