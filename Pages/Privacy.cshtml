@@ -36,9 +36,38 @@
             z-index: 10000;
             
         }
+        
+
+        #toolbar {
+            display:flex;
+            width: 80%;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            align-content: flex-start;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            float:right;
+        }
+
+        #toolbar button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #toolbar button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
+    <div id="toolbar">
+        <button id="addPinButton">Add Pin</button>
+    </div>
     <div id="map"></div>
     <div id="sidebar">
         <div id="info">Click on a marker to see details here.</div>
@@ -62,9 +91,12 @@
 
 
         
-        var lat, lng
+        var lat, lng;
+        var addingPin = false;
 
         function onMapClick(e) {
+            if (!addingPin) return;
+
             lat = e.latlng.lat;
             lng = e.latlng.lng;
             
@@ -93,6 +125,10 @@
             document.getElementById('pinDescription').value = '';
             document.getElementById('pinImage').value = '';
         }
+
+        document.getElementById('addPinButton').addEventListener('click', function () {
+            addingPin = true;
+        });
         
         document.getElementById('savePin').addEventListener('click', function () {
             var title = document.getElementById('pinTitle').value;
@@ -123,11 +159,13 @@
             var pinForm = document.getElementById('pinCreateForm');
             pinForm.style.display = 'none';
             clearForm();
+            addingPin = false;
         });
         document.getElementById('cancelPin').addEventListener('click', function () {
             var pinForm = document.getElementById('pinCreateForm');
             clearForm();
             pinForm.style.display = 'none';
+            addingPin = false;
         });
 
 
