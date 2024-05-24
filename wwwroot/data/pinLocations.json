@@ -1,8 +1,10 @@
-{
-  "Owner": "12",
-  "Longitude": 12.0,
-  "Latitude": 12.0,
-  "Title": "12",
-  "Description": "12",
-  "ImageLink": "placeholder_imagelink"
-}
+[
+  {
+    "Owner": "123",
+    "Longitude": 123.0,
+    "Latitude": 123.0,
+    "Title": "123",
+    "Description": "123",
+    "ImageLink": null
+  }
+]

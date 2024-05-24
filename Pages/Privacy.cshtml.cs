@@ -24,42 +24,26 @@ namespace WebApplication1testingRazor.Pages
         {
         }
 
-        //POST method for receiving pin data.
+        //POST method for receiving pin data and saving to file.
         public IActionResult OnPost(string owner, string latitude, string longitude, string title, string description, string imageLink)
         {
             double lat = Convert.ToDouble(latitude, CultureInfo.InvariantCulture);
             double lon = Convert.ToDouble(longitude, CultureInfo.InvariantCulture);
-
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data", "pinLocations.json");
-
             List<MapPin> mapPins = new List<MapPin>();
-            
             MapPin mapPin = new MapPin(owner, lat, lon, title, description, "placeholder_imagelink");
-            // Console.WriteLine($"{mapPin}");
 
-            string json = JsonConvert.SerializeObject(mapPins, Formatting.Indented);
-
-            System.IO.File.WriteAllText(filePath, json );
-
+            //Get all pins from file and deserialize from JSON to list of MapPin objects.
             if (System.IO.File.Exists(filePath))
             {
                 var jsonData = System.IO.File.ReadAllText(filePath);
                 mapPins = JsonConvert.DeserializeObject<List<MapPin>>(jsonData) ?? new List<MapPin>();
             }
 
-            foreach (MapPin test in mapPins)
-            {
-                Console.WriteLine(test);
-            }
-
+            //Add new pin to list and write all back to file.
             mapPins.Add(new MapPin(owner,lat,lon,title,description,imageLink));
-
             string newJsonData = JsonConvert.SerializeObject(mapPins, Formatting.Indented);
             System.IO.File.WriteAllText(filePath, newJsonData);
-
-            // Console.WriteLine("MapPin data written succesfully!");
-
-            //_logger.LogInformation("Received coordinates: Latitude = {Latitude}, Longitude = {Longitude}", latitude, longitude);
 
             return Page();
         }
