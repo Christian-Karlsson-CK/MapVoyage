@@ -1,5 +1,22 @@
 [
-    {"Username": "test1", "Password": "1"},
-    {"Username": "test2", "Password": "2"},
-    {"Username": "test3", "Password": "3"}
+  {
+    "Username": "123456",
+    "PasswordHash": "qc4flavusddOEAp7mouiwbCgSp7RHvX8GQyUyWRI+i8=",
+    "Salt": "TUb/4QhGld7bnkbKbG/mhw=="
+  },
+  {
+    "Username": "test1",
+    "PasswordHash": "wvXtCludNNEH1qwCfy0NhH+E9sxKvHRf9vCirpXuy/E=",
+    "Salt": "MRb2ehA8z+6BlaAqAxG5Ng=="
+  },
+  {
+    "Username": "test2",
+    "PasswordHash": "is1GYJYQrSyY6yFv5O0posxvxDnQ95XDM0zG2JlKdRg=",
+    "Salt": "Z0mVqY8qFUbMAqppfcWb9w=="
+  },
+  {
+    "Username": "test3",
+    "PasswordHash": "4BXPZdBqP7wT7A42BDZLf5z6fXuXB3HJGCN0Caas1kE=",
+    "Salt": "GWQLWoy+yNtjuzhplmaVkQ=="
+  }
 ]

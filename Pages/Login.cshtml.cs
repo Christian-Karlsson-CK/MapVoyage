@@ -27,8 +27,8 @@ namespace WebApplication1testingRazor.Pages
                 var jsonData = System.IO.File.ReadAllText(filePath);
                 var users = JsonConvert.DeserializeObject<List<User>>(jsonData);
 
-                var matchingUser = users?.FirstOrDefault(user => user.Username == Username && user.Password == Password);
-                if (matchingUser != null)
+                var matchingUser = users?.FirstOrDefault(user => user.Username == Username);
+                if (matchingUser != null && PasswordHelper.VerifyPassword(Password, matchingUser.PasswordHash, matchingUser.Salt))
                 {
                     // Korrekt inmatning
                     return RedirectToPage("/Privacy");

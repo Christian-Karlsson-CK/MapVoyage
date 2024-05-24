@@ -57,8 +57,10 @@ namespace WebApplication1testingRazor.Pages
                 ModelState.AddModelError(string.Empty, "Username already exists. Please choose another username.");
                 return Page();
             }
+            var salt = PasswordHelper.GenerateSalt();
+            var hashedPassword = PasswordHelper.HashPassword(Password, salt);
 
-            users.Add(new User(Username, Password));
+            users.Add(new User(Username, hashedPassword, salt));
 
             var updatedJsonData = JsonConvert.SerializeObject(users, Formatting.Indented);
             System.IO.File.WriteAllText(filePath, updatedJsonData);
