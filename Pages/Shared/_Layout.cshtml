@@ -30,10 +30,28 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav">
-                        <li class="nav-item ml-auto">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Login">
+                        <li class="nav-item ml-auto dropdown">
+                            <a class="nav-link text-dark dropdown-toggle" href="#" role="button" id="profileDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img src="~/Images/ProfilSymbol.png" />
                             </a>
+                            <div class="dropdown-menu" aria-labelledby="profileDropdown">
+                                <a class="dropdown-item" href="#">Profile</a>
+                                <a class="dropdown-item" href="#" onclick="showSignOutModal()">Sign Out</a>
+                            </div>
+                            <div class="modal fade" id="signOutModal" tabindex="-1" aria-labelledby="signOutModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="signOutModalLabel">Are you ready to log off and explore the real world? 🌍</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <a class="btn btn-primary" href="/Login">Sign Out</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -55,6 +73,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/signOutMessages.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
