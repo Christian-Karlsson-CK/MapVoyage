@@ -37,22 +37,25 @@
             
         }
 
+        #SearchAndFilter{
+            width: 20%;  
+        }
+
     </style>
 </head>
 <body>
     <div id="map"></div>
-    <div id="searchBar">
-        <input type="text" id="searchInput" placeholder="Enter location...">
+
+    <div id="SearchAndFilter">
+        <input type="text" id="searchInput" placeholder="Search..." />
         <button onclick="searchLocation()">Search</button>
-    </div>
-    <div id="filterBar">
-        <select id="cityFilter">
-            <option value="">Select City</option>
-            <option value="New York">New York</option>
-            <option value="London">London</option>
-            <!-- Add more city options as needed -->
+        <select id="categoryDropdown" name="dropdown">
+            <option value="all">All</option>
+            <option value="restaurant">Restaurant</option>
+            <option value="city">City</option>
+            <option value="country">Country</option>
         </select>
-        <button id="filterButton">Filter</button>
+        
     </div>
     <div id="sidebar">
         <!--<input type="text" id="searchBar" placeholder="Search for pins..." oninput="filterPins()">-->
@@ -72,7 +75,7 @@
     </div>
 
     <script src="~/js/search.js"></script>
-    <script src="~/js/filter.js"></script>
+
 
     <script>
         var map = L.map('map').setView([58.31, 15.09], 13); // Center the map and set zoom level
@@ -90,14 +93,9 @@
                     searchLocation();
                 }
             });
-            ('#filterButton').click(function () {
-                filterLocations();
-            });
-
-            $('#cityFilter').change(function () {
-                filterLocations();
-            });
+            
         });
+
 
         function onMapClick(e) {
             lat = e.latlng.lat;
@@ -157,19 +155,6 @@
             var pinForm = document.getElementById('pinCreateForm');
             pinForm.style.display = 'none';
             clearForm();
-
-            // Function to filter pins based on search input (funkar inte)
-            function filterPins() {
-                var searchText = document.getElementById('searchBar').value.toLowerCase();
-                markers.forEach(marker => map.removeLayer(marker)); // Remove existing markers
-                markers = []; // Clear the markers array
-
-                var filteredData = pinsData.filter(pin =>
-                    pin.title.toLowerCase().includes(searchText) ||
-                    pin.description.toLowerCase().includes(searchText)
-                );
-                addPins(filteredData); // Add filtered pins to the map
-            }
 
             // Initial load of pins
             addPins(pinsData);
