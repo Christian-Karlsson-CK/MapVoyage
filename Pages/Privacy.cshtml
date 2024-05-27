@@ -77,6 +77,29 @@
         <button type="submit" class="btn btn-primary">Submit PinID</button>
     </form>
 
+    <div id="firstMapPinContainer"></div>
+
+
+    
+    <script>
+        //Script to add all pins on map upon page loading in
+        document.addEventListener('DOMContentLoaded', (event) => {
+            fetch('/Privacy?handler=AllPinData')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length > 0) {
+
+                        data.forEach(pin => {
+                            L.marker([pin.latitude, pin.longitude]).addTo(map)
+                                //.bindPopup(`<b>${pin.title}</b><br>Latitude: ${pin.latitude}<br>Longitude: ${pin.longitude}`);
+                        });
+                    } else {
+                        console.log('No map pins found.');
+                    }
+                })
+                .catch(error => console.error('Error fetching pin data:', error));
+        });
+    </script>
 
 </body>
 </html>
