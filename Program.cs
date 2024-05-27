@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 namespace WebApplication1testingRazor
 {
 	public class Program
@@ -9,7 +11,16 @@ namespace WebApplication1testingRazor
 			// Add services to the container.
 			builder.Services.AddRazorPages();
 
-			var app = builder.Build();
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Login";
+                    options.LogoutPath = "/Logout";
+                });
+
+            builder.Services.AddSession();
+
+            var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
 			if (!app.Environment.IsDevelopment())
@@ -24,7 +35,9 @@ namespace WebApplication1testingRazor
 
 			app.UseRouting();
 
-			app.UseAuthorization();
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseSession();
 
             app.MapRazorPages();
             app.MapFallbackToPage("/Login");
