@@ -114,24 +114,6 @@
                 })
                 .catch(error => console.error('Error fetching pin data:', error));
         });
-
-        
-
-        function sendPinInfo(pinInfo) {
-            $.ajax({
-                url: '@Url.Page("/Map", "GetPinInfo")',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(pinInfo),
-                success: function (response) {
-                    alert('Pin data retrieved: ' + response);
-                },
-                error: function (xhr, status, error) {
-                    alert('Error: ' + error);
-                }
-            });
-        }
-
     </script>
 
 </body>
