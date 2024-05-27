@@ -9,6 +9,7 @@ using System.Globalization;
 namespace WebApplication1testingRazor.Pages
 {
     [Authorize]
+    [IgnoreAntiforgeryToken]
     public class PrivacyModel : PageModel
     {
         private readonly ILogger<PrivacyModel> _logger;
@@ -29,6 +30,7 @@ namespace WebApplication1testingRazor.Pages
             if (User.Identity.IsAuthenticated)
             {
                 var username = User.Identity.Name; // Hämtar användarnamnet från claims
+                TempData["Username"] = username;
                 _logger.LogInformation($"Användaren {username} är inloggad.");
             }
             else
@@ -39,8 +41,10 @@ namespace WebApplication1testingRazor.Pages
 
 
         //POST method for receiving pin data and saving to file.
-        public IActionResult OnPost(string owner, string latitude, string longitude, string title, string description, string imageLink)
+        /*public IActionResult OnPost(string owner, string latitude, string longitude, string title, string description, string imageLink)
         {
+            Console.WriteLine("reached onpostthroughAJAX");
+
             double lat = Convert.ToDouble(latitude, CultureInfo.InvariantCulture);
             double lon = Convert.ToDouble(longitude, CultureInfo.InvariantCulture);
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data", "pinLocations.json");
@@ -60,10 +64,38 @@ namespace WebApplication1testingRazor.Pages
             System.IO.File.WriteAllText(filePath, newJsonData);
 
             return new JsonResult(mapPins);
+        }*/
+
+
+        public void OnPost([FromBody] MapPin pinData)
+        {
+            string user = "Anonymous";
+            if (TempData.ContainsKey("Username"))
+            {
+                user = TempData["Username"] as string;
+            }
+            double lat = Convert.ToDouble(pinData.Latitude, CultureInfo.InvariantCulture);
+            double lon = Convert.ToDouble(pinData.Longitude, CultureInfo.InvariantCulture);
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data", "pinLocations.json");
+            List<MapPin> mapPins = new List<MapPin>();
+            MapPin mapPin = new MapPin(user, lat, lon, pinData.Title, pinData.Description, pinData.ImageLink);
+
+            //Get all pins from file and deserialize from JSON to list of MapPin objects.
+            if (System.IO.File.Exists(filePath))
+            {
+                var jsonData = System.IO.File.ReadAllText(filePath);
+                mapPins = JsonConvert.DeserializeObject<List<MapPin>>(jsonData) ?? new List<MapPin>();
+            }
+
+            //Add new pin to list and write all back to file.
+            mapPins.Add(mapPin);
+            string newJsonData = JsonConvert.SerializeObject(mapPins, Formatting.Indented);
+            System.IO.File.WriteAllText(filePath, newJsonData);
+
         }
-        
+
         //GET method for retriving Pin data.
-        public void OnGetPinData(string id)
+        /*public void OnGetPinData(string id)
         {
             Console.WriteLine("Reached OnGetPinData method");
 
@@ -71,7 +103,7 @@ namespace WebApplication1testingRazor.Pages
 
             PinTitle = "PinTitle";
             PinDescription = "PinDesc";
-        }
+        }*/
 
 
         public IActionResult OnGetAllPinData()
