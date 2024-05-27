@@ -4,8 +4,10 @@ using Newtonsoft.Json;
 using OsmSharp.API;
 using System.Globalization;
 
+
 namespace WebApplication1testingRazor.Pages
 {
+
     public class PrivacyModel : PageModel
     {
         private readonly ILogger<PrivacyModel> _logger;
@@ -45,9 +47,9 @@ namespace WebApplication1testingRazor.Pages
             string newJsonData = JsonConvert.SerializeObject(mapPins, Formatting.Indented);
             System.IO.File.WriteAllText(filePath, newJsonData);
 
-            return Page();
+            return new JsonResult(mapPins);
         }
-
+        
         //GET method for retriving Pin data.
         public void OnGetPinData(string id)
         {
@@ -57,6 +59,24 @@ namespace WebApplication1testingRazor.Pages
 
             PinTitle = "PinTitle";
             PinDescription = "PinDesc";
+        }
+
+
+        public IActionResult OnGetAllPinData()
+        {
+            Console.WriteLine("Reached OnGetAllPinData method");
+
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data", "pinLocations.json");
+            List<MapPin> mapPins = new List<MapPin>();
+
+            //Get all pins from file and deserialize from JSON to list of MapPin objects.
+            if (System.IO.File.Exists(filePath))
+            {
+                var jsonData = System.IO.File.ReadAllText(filePath);
+                mapPins = JsonConvert.DeserializeObject<List<MapPin>>(jsonData) ?? new List<MapPin>();
+            }
+
+            return new JsonResult(mapPins);
         }
     }
 }

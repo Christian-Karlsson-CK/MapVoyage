@@ -1,10 +1,18 @@
 [
-  {
-    "Owner": "123",
-    "Longitude": 123.0,
-    "Latitude": 123.0,
-    "Title": "123",
-    "Description": "123",
-    "ImageLink": null
-  }
+    {
+        "Owner": "Someone",
+        "Longitude": 15.0,
+        "Latitude": 58.0,
+        "Title": "a place",
+        "Description": "desc",
+        "ImageLink": null
+    },
+    {
+        "Owner": "Someoneelse",
+        "Longitude": 15.1,
+        "Latitude": 58.1,
+        "Title": "another place",
+        "Description": "some area",
+        "ImageLink": null
+    }
 ]
