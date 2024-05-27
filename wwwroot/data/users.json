@@ -1,22 +1,38 @@
 [
   {
+    "UserId": null,
     "Username": "123456",
     "PasswordHash": "qc4flavusddOEAp7mouiwbCgSp7RHvX8GQyUyWRI+i8=",
     "Salt": "TUb/4QhGld7bnkbKbG/mhw=="
   },
   {
+    "UserId": null,
     "Username": "test1",
     "PasswordHash": "wvXtCludNNEH1qwCfy0NhH+E9sxKvHRf9vCirpXuy/E=",
     "Salt": "MRb2ehA8z+6BlaAqAxG5Ng=="
   },
   {
+    "UserId": null,
     "Username": "test2",
     "PasswordHash": "is1GYJYQrSyY6yFv5O0posxvxDnQ95XDM0zG2JlKdRg=",
     "Salt": "Z0mVqY8qFUbMAqppfcWb9w=="
   },
   {
+    "UserId": null,
     "Username": "test3",
     "PasswordHash": "4BXPZdBqP7wT7A42BDZLf5z6fXuXB3HJGCN0Caas1kE=",
     "Salt": "GWQLWoy+yNtjuzhplmaVkQ=="
+  },
+  {
+    "UserId": "02447d50-ab60-402d-850f-c3f398b6f206",
+    "Username": "Hallåtest",
+    "PasswordHash": "bM588re4UjrR5Fv3AYfFXuQnKIGGi2FFI/UmysqbddI=",
+    "Salt": "ZD+MlIv4/SX4mBBQBVb1cw=="
+  },
+  {
+    "UserId": "29e707c7-e417-4000-b19b-75db0cf9fc6e",
+    "Username": "tezt",
+    "PasswordHash": "vZE2xoT1x+S4xDtLFuGpzIXG4g8RbFkiF5qOehkAYuY=",
+    "Salt": "vf41LX3dzTsbfPeRTjPAYQ=="
   }
 ]

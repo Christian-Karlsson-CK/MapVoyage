@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using OsmSharp.API;
@@ -6,6 +7,7 @@ using System.Globalization;
 
 namespace WebApplication1testingRazor.Pages
 {
+    [Authorize]
     public class PrivacyModel : PageModel
     {
         private readonly ILogger<PrivacyModel> _logger;
@@ -22,7 +24,18 @@ namespace WebApplication1testingRazor.Pages
 
         public void OnGet()
         {
+            // Kontrollera om användaren är inloggad
+            if (User.Identity.IsAuthenticated)
+            {
+                var username = User.Identity.Name; // Hämtar användarnamnet från claims
+                _logger.LogInformation($"Användaren {username} är inloggad.");
+            }
+            else
+            {
+                _logger.LogInformation("Användaren är inte inloggad.");
+            }
         }
+
 
         //POST method for receiving pin data and saving to file.
         public IActionResult OnPost(string owner, string latitude, string longitude, string title, string description, string imageLink)

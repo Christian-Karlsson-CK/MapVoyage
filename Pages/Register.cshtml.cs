@@ -60,8 +60,13 @@ namespace WebApplication1testingRazor.Pages
             var salt = PasswordHelper.GenerateSalt();
             var hashedPassword = PasswordHelper.HashPassword(Password, salt);
 
-            users.Add(new User(Username, hashedPassword, salt));
+            // Generera ett slumpmässigt användar-ID
+            var userId = Guid.NewGuid().ToString();
 
+            // Lägg till användarobjekt med det slumpmässiga användar-ID:et
+            users.Add(new User(userId, Username, hashedPassword, salt));
+
+            // Serialisera användarlistan till JSON och skriv över befintlig fil
             var updatedJsonData = JsonConvert.SerializeObject(users, Formatting.Indented);
             System.IO.File.WriteAllText(filePath, updatedJsonData);
 
