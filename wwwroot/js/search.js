@@ -1,6 +1,13 @@
 ﻿function searchLocation() {
     var searchTerm = document.getElementById('searchInput').value;
+    var category = document.getElementById('categoryDropdown').value;
+
     var url = 'https://nominatim.openstreetmap.org/search?format=json&q=' + searchTerm;
+
+    if (category) {
+        url += '&category=' + category;
+    }
+
 
     $.ajax({
         url: url,
