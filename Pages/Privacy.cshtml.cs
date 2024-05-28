@@ -69,11 +69,8 @@ namespace WebApplication1testingRazor.Pages
 
         public void OnPost([FromBody] MapPin pinData)
         {
-            string user = "Anonymous";
-            if (TempData.ContainsKey("Username"))
-            {
-                user = TempData["Username"] as string;
-            }
+            
+            var user = User.Identity.Name;
             double lat = Convert.ToDouble(pinData.Latitude, CultureInfo.InvariantCulture);
             double lon = Convert.ToDouble(pinData.Longitude, CultureInfo.InvariantCulture);
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data", "pinLocations.json");
