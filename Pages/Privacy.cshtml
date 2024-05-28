@@ -105,48 +105,48 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.length > 0) {
-
-                        data.forEach(pin => {
-                            var marker = L.marker([pin.latitude, pin.longitude]).addTo(map)
-
-                            marker.on('click', function (e) {
-                                var pinInfo = {
-                                    owner: pin.owner,
-                                    title: e.title,
-                                    description: e.description,
-                                    latitude: e.latlng.lat,
-                                    longitude: e.latlng.lng
-
-
-                                };
-
-                                if (pin.ImageLink)
-                                    document.getElementById('info').innerHTML = '<b>Created by: ' + pin.owner + '</br>Title: ' + pin.title + '</b><br>Description: ' + pin.description + '<br><img src="' + pin.ImageLink + '" alt="' + pinInfo.title + '" style="max-width: 100%; height: auto;">';
-                                else
-                                    document.getElementById('info').innerHTML = '<b>Created by: ' + pin.owner + '</br>Title: ' + pin.title + '</b><br>Description: ' + pin.description;
-                                
-
-                                var currentUser = document.getElementById('currentUser').getAttribute('dataUsername');
-                                var removeButton = document.getElementById('removePinButton');
-                                if (pinInfo.owner === currentUser) {
-                                    removeButton.style.display = 'block';
-                                    removeButton.onclick = function () { removePin(pinInfo.latitude, pinInfo.longitude); };
-                                } else {
-                                    removeButton.style.display = 'none';
-                                    console.log(currentUser)
-                                    console.log(pinInfo.owner)
-                                }
-                            });
-
-                            LoadedPins.push(marker);
-                            //.bindPopup(`<b>${pin.title}</b><br>Latitude: ${pin.latitude}<br>Longitude: ${pin.longitude}`);
-                        });
+                        data.forEach(pin => addPinToMap(pin));
                     } else {
                         console.log('No map pins found.');
                     }
                 })
                 .catch(error => console.error('Error fetching pin data:', error));
         });
+        function addPinToMap(pin) {
+            var marker = L.marker([pin.latitude, pin.longitude]).addTo(map);
+
+            marker.on('click', function (e) {
+                var pinInfo = {
+                    owner: pin.owner,
+                    title: pin.title,
+                    description: pin.description,
+                    latitude: pin.latitude,
+                    longitude: pin.longitude,
+                    imageLink: pin.imageLink
+                };
+
+                pinDetailsHtml = `<b>Created by: ${pinInfo.owner}</br>Title: ${pinInfo.title}</b><br>Description: ${pinInfo.description}`;
+                if (pinInfo.imageLink) {
+                    pinDetailsHtml += `<br><img src="${pinInfo.imageLink}" alt="${pinInfo.title}" style="max-width: 100%; height: auto;">`;
+                }
+
+                var pinDetailsElement = document.getElementById('pinDetails');
+                var removeButton = document.getElementById('removePinButton');
+
+                document.getElementById('info').innerHTML = pinDetailsHtml;
+
+                var currentUser = document.getElementById('currentUser').getAttribute('dataUsername');
+                var removeButton = document.getElementById('removePinButton');
+                if (pinInfo.owner === currentUser) {
+                    removeButton.style.display = 'block';
+                    removeButton.onclick = function () { removePin(pinInfo.latitude, pinInfo.longitude); };
+                } else {
+                    removeButton.style.display = 'none';
+                }
+            });
+
+            LoadedPins.push(marker);
+        }
         // Make a search by tab to search button and press 'Enter' key
         $(document).ready(function () {
             $('#searchInput').keydown(function (e) {

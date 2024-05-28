@@ -34,6 +34,8 @@ document.getElementById('addPinButton').addEventListener('click', function () {
     addingPin = true;
 });
 
+
+
 document.getElementById('savePin').addEventListener('click', function () {
 
     var title = document.getElementById('pinTitle').value;
