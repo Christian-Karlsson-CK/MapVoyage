@@ -133,7 +133,33 @@
                     }
                 })
                 .catch(error => console.error('Error fetching pin data:', error));
+
+            const params = new URLSearchParams();
+            params.append('loggedinUser', document.getElementById('currentUser').getAttribute('dataUsername'));
+
+            fetch('/Privacy?handler=UserView&' + params.toString())
+                .then(response => response.json())
+                .then(data => {
+                    if (data) {
+                        console.log(data);
+                        map.setView([data.viewLatitude, data.viewLongitude], data.viewZoomLevel); // Update map view
+                        console.log('Setting saved view.');
+                    } else {
+                        map.setView([58.0, 13.0], 13); // Set default view
+                        console.log('No saved view, setting default.');
+                    }
+                })
+                .catch(error => console.error('Error fetching pin data:', error));
+
+
         });
+
+        //If closing tab save the map view
+        window.addEventListener('beforeunload', function (e) {
+            saveMapView();
+        });
+
+
         // Make a search by tab to search button and press 'Enter' key
         $(document).ready(function () {
             $('#searchInput').keydown(function (e) {
@@ -145,7 +171,7 @@
 
         });
 
-        
+
     </script>
 
 

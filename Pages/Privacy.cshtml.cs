@@ -91,6 +91,37 @@ namespace WebApplication1testingRazor.Pages
 
         }
 
+        public void OnPostSaveMapView([FromBody] User LoggingOutUser)
+        {
+
+            Console.WriteLine("savemapview!");
+            Console.WriteLine(LoggingOutUser.Username);
+
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data", "users.json");
+            List<User> users = new List<User>();
+
+            if (System.IO.File.Exists(filePath))
+            {
+                var jsonData = System.IO.File.ReadAllText(filePath);
+                users = JsonConvert.DeserializeObject<List<User>>(jsonData) ?? new List<User>();
+            }
+
+            var savedUser = users.FirstOrDefault(u => u.Username == LoggingOutUser.Username);
+
+            if (savedUser != null)
+            {
+                // Update the user's properties
+                savedUser.ViewLatitude = LoggingOutUser.ViewLatitude;
+                savedUser.ViewLongitude = LoggingOutUser.ViewLongitude;
+                savedUser.ViewZoomLevel = LoggingOutUser.ViewZoomLevel;
+            }
+
+            // Serialize the updated list back to JSON
+            var updatedJsonData = JsonConvert.SerializeObject(users, Formatting.Indented);
+            System.IO.File.WriteAllText(filePath, updatedJsonData);
+
+        }
+
         //GET method for retriving Pin data.
         /*public void OnGetPinData(string id)
         {
@@ -118,6 +149,35 @@ namespace WebApplication1testingRazor.Pages
             }
 
             return new JsonResult(mapPins);
+        }
+
+        public IActionResult OnGetUserView(string loggedinUser)
+        {
+            Console.WriteLine("Trying to get UserView");
+
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data", "users.json");
+            List<User> users = new List<User>();
+
+            if (System.IO.File.Exists(filePath))
+            {
+                var jsonData = System.IO.File.ReadAllText(filePath);
+                users = JsonConvert.DeserializeObject<List<User>>(jsonData) ?? new List<User>();
+            }
+
+            var savedUser = users.FirstOrDefault(u => u.Username == loggedinUser);
+            User userViewData = new User();
+
+            if (savedUser != null)
+            {
+                // Update the user's properties
+                userViewData.ViewLatitude = savedUser.ViewLatitude;
+                userViewData.ViewLongitude = savedUser.ViewLongitude;
+                userViewData.ViewZoomLevel = savedUser.ViewZoomLevel;
+                Console.WriteLine($"Sending: {userViewData}");
+            }
+
+            
+            return new JsonResult(userViewData);
         }
     }
 }
