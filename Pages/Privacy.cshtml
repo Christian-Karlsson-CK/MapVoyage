@@ -1,5 +1,5 @@
 ﻿@page
-@model PrivacyModel
+@model WebApplication1testingRazor.Pages.PrivacyModel
 @{
     
 }
@@ -18,9 +18,24 @@
         <button id="addPinButton">Add Pin</button>
     </div>
     <div id="map"></div>
+
+    <div id="SearchAndFilter">
+        <input type="text" id="searchInput" placeholder="Search..." />
+        <button onclick="searchLocation()">Search</button>
+        <select id="categoryDropdown" name="dropdown">
+            <option value="all">All</option>
+            <option value="restaurant">Restaurant</option>
+            <option value="city">City</option>
+            <option value="country">Country</option>
+        </select>
+        
+    </div>
     <div id="sidebar">
+        <!--<input type="text" id="searchBar" placeholder="Search for pins..." oninput="filterPins()">-->
         <div id="info">Click on a marker to see details here.</div>
     </div>
+   
+
     <div id="pinCreateForm">
         <label for="pinTitle">Title:</label>
         <input type="text" id="pinTitle" name="pinTitle" /><br>
@@ -115,6 +130,7 @@
                 .catch(error => console.error('Error fetching pin data:', error));
         });
     </script>
+
 
 </body>
 </html>
