@@ -153,8 +153,7 @@ namespace WebApplication1testingRazor.Pages
 
         public IActionResult OnGetUserView(string loggedinUser)
         {
-            Console.WriteLine("Reached OnGetUserView method");
-            Console.WriteLine($"{loggedinUser}");
+            Console.WriteLine("Trying to get UserView");
 
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data", "users.json");
             List<User> users = new List<User>();
@@ -174,9 +173,10 @@ namespace WebApplication1testingRazor.Pages
                 userViewData.ViewLatitude = savedUser.ViewLatitude;
                 userViewData.ViewLongitude = savedUser.ViewLongitude;
                 userViewData.ViewZoomLevel = savedUser.ViewZoomLevel;
+                Console.WriteLine($"Sending: {userViewData}");
             }
 
-            Console.WriteLine($"{userViewData}");
+            
             return new JsonResult(userViewData);
         }
     }

@@ -153,6 +153,13 @@
 
 
         });
+
+        //If closing tab save the map view
+        window.addEventListener('beforeunload', function (e) {
+            saveMapView();
+        });
+
+
         // Make a search by tab to search button and press 'Enter' key
         $(document).ready(function () {
             $('#searchInput').keydown(function (e) {
@@ -164,7 +171,7 @@
 
         });
 
-        
+
     </script>
 
 
