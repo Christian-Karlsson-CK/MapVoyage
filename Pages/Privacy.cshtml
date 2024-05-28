@@ -1,5 +1,5 @@
 ﻿@page
-@model PrivacyModel
+@model WebApplication1testingRazor.Pages.PrivacyModel
 @{
     // Check if user is authenticated.If they are, it assigns their name to username. 
     // If not, it assigns the string "NotCurrentUser" to username.
@@ -20,9 +20,24 @@
         <button id="addPinButton">Add Pin</button>
     </div>
     <div id="map"></div>
+
+    <div id="SearchAndFilter">
+        <input type="text" id="searchInput" placeholder="Search..." />
+        <button onclick="searchLocation()">Search</button>
+        <select id="categoryDropdown" name="dropdown">
+            <option value="all">All</option>
+            <option value="restaurant">Restaurant</option>
+            <option value="city">City</option>
+            <option value="country">Country</option>
+        </select>
+        
+    </div>
     <div id="sidebar">
+        <!--<input type="text" id="searchBar" placeholder="Search for pins..." oninput="filterPins()">-->
         <div id="info">Click on a marker to see details here.</div>
     </div>
+   
+
     <div id="pinCreateForm">
         <label for="pinTitle">Title:</label>
         <input type="text" id="pinTitle" name="pinTitle" /><br>
@@ -35,6 +50,7 @@
     </div>
 
     <script src="~/js/mapView.js"></script>
+    <script src="~/js/search.js"></script>
 
     <!-- This is a hidden div and a custom data attribute (@username) that stores the username -->
     <div id="currentUser" dataUsername="@username" style="display: none;"></div> 
@@ -82,6 +98,17 @@
     </form>
     
     <script>
+        // Make a search by tab to search button and press 'Enter' key
+        $(document).ready(function () {
+            $('#searchInput').keydown(function (e) {
+                if (e.key === 'Enter') { // Use 'Enter' for better readability
+                    e.preventDefault(); // Prevent form submission if within a form
+                    searchLocation();
+                }
+            });
+
+        });
+
         var LoadedPins = [];
         //Script to add all pins on map upon page loading in
         document.addEventListener('DOMContentLoaded', (event) => {
@@ -119,6 +146,7 @@
                 .catch(error => console.error('Error fetching pin data:', error));
         });
     </script>
+
 
 </body>
 </html>

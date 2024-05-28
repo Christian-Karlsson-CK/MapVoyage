@@ -34,5 +34,11 @@
     "Username": "tezt",
     "PasswordHash": "vZE2xoT1x+S4xDtLFuGpzIXG4g8RbFkiF5qOehkAYuY=",
     "Salt": "vf41LX3dzTsbfPeRTjPAYQ=="
+  },
+  {
+    "UserId": "d8357985-3886-4f9b-836a-0de567c1e32c",
+    "Username": "rebe",
+    "PasswordHash": "7UD8c0pt2yZJmYK7NTQS1VTggU8/okmax3bF3D2g6UA=",
+    "Salt": "jNrUl9MEL5yFQwbGtkBRJQ=="
   }
 ]
