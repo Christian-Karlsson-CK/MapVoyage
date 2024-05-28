@@ -98,17 +98,6 @@
     </form>
     
     <script>
-        // Make a search by tab to search button and press 'Enter' key
-        $(document).ready(function () {
-            $('#searchInput').keydown(function (e) {
-                if (e.key === 'Enter') { // Use 'Enter' for better readability
-                    e.preventDefault(); // Prevent form submission if within a form
-                    searchLocation();
-                }
-            });
-
-        });
-
         var LoadedPins = [];
         //Script to add all pins on map upon page loading in
         document.addEventListener('DOMContentLoaded', (event) => {
@@ -127,7 +116,7 @@
                                     latitude: e.latlng.lat,
                                     longitude: e.latlng.lng
 
-                                    
+
                                 };
 
                                 if (pin.ImageLink)
@@ -145,6 +134,18 @@
                 })
                 .catch(error => console.error('Error fetching pin data:', error));
         });
+        // Make a search by tab to search button and press 'Enter' key
+        $(document).ready(function () {
+            $('#searchInput').keydown(function (e) {
+                if (e.key === 'Enter') { // Use 'Enter' for better readability
+                    e.preventDefault(); // Prevent form submission if within a form
+                    searchLocation();
+                }
+            });
+
+        });
+
+        
     </script>
 
 
