@@ -1,7 +1,9 @@
 ﻿@page
 @model PrivacyModel
 @{
-    
+    // Check if user is authenticated.If they are, it assigns their name to username. 
+    // If not, it assigns the string "NotCurrentUser" to username.
+    var username = User.Identity.IsAuthenticated ? User.Identity.Name : "NotCurrentUser";
 }
 <h1>@ViewData["Title"]</h1>
 
@@ -34,6 +36,8 @@
 
     <script src="~/js/mapView.js"></script>
 
+    <!-- This is a hidden div and a custom data attribute (@username) that stores the username -->
+    <div id="currentUser" dataUsername="@username" style="display: none;"></div> 
 
     <!--This is a hidden form to assign values to when a new pin is created by the user. -->
     <form id="SendPinDataForm" method="post" style="display: none;">

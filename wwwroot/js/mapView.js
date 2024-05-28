@@ -40,9 +40,10 @@ document.getElementById('savePin').addEventListener('click', function () {
     var description = document.getElementById('pinDescription').value;
     var imageInput = document.getElementById('pinImage');
     var imageFile = imageInput.files[0];
+    var username = document.getElementById('currentUser').getAttribute('dataUsername');
 
     var newPin = {
-        Owner: 'You', //TODO add real user here
+        Owner: username,
         Latitude: lat,
         Longitude: lng,
         Title: title,
