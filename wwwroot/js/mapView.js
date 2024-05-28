@@ -89,5 +89,30 @@ document.getElementById('cancelPin').addEventListener('click', function () {
     addingPin = false;
 });
 
+function removePin(lat, lng) {
+    var pinToRemove = {
+        Latitude: lat,
+        Longitude: lng
+    };
+
+    fetch('/Privacy?handler=RemovePin', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(pinToRemove)
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Pin removed successfully.');
+                location.reload();
+            } else {
+                alert('Error removing pin: ' + data.message);
+            }
+        })
+        .catch(error => console.error('Error removing pin:', error));
+}
+
 
 map.on('click', onMapClick);

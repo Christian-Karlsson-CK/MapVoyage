@@ -1,7 +1,7 @@
 ﻿@page
 @model WebApplication1testingRazor.Pages.PrivacyModel
 @{
-    // Check if user is authenticated.If they are, it assigns their name to username. 
+    // Check if user is authenticated.If they are, it assigns their name to username.
     // If not, it assigns the string "NotCurrentUser" to username.
     var username = User.Identity.IsAuthenticated ? User.Identity.Name : "NotCurrentUser";
 }
@@ -30,13 +30,14 @@
             <option value="city">City</option>
             <option value="country">Country</option>
         </select>
-        
+
     </div>
     <div id="sidebar">
         <!--<input type="text" id="searchBar" placeholder="Search for pins..." oninput="filterPins()">-->
         <div id="info">Click on a marker to see details here.</div>
+        <button id="removePinButton" style="display:none;" onclick="removePin()">Remove Pin</button>
     </div>
-   
+
 
     <div id="pinCreateForm">
         <label for="pinTitle">Title:</label>
@@ -53,7 +54,7 @@
     <script src="~/js/search.js"></script>
 
     <!-- This is a hidden div and a custom data attribute (@username) that stores the username -->
-    <div id="currentUser" dataUsername="@username" style="display: none;"></div> 
+    <div id="currentUser" dataUsername="@username" style="display: none;"></div>
 
     <!--This is a hidden form to assign values to when a new pin is created by the user. -->
     <form id="SendPinDataForm" method="post" style="display: none;">
@@ -66,29 +67,28 @@
     </form>
 
 
-    
+
     <!-- Testing retriving pindata from backend
     <div id="dataContainer">
-        @if (Model.PinDescription != null)
-        {
-            <h2>@Model.PinTitle</h2>
-        }
-        else
-        {
-            <h2>No Title</h2>
-        }
-        
-        @if (Model.PinDescription != null)
-        {
-            <p>@Model.PinDescription</p>
-        }
-        else
-        {
-            <p>No desc</p>
-        }
-    </div> -->
+    @if (Model.PinDescription != null)
+    {
+                <h2>@Model.PinTitle</h2>
+    }
+    else
+    {
+                <h2>No Title</h2>
+    }
 
-    <!--This is a hidden form to assign a pin ID to when a pin is selected by the user to retrieve pin data to be displayed. 
+    @if (Model.PinDescription != null)
+    {
+                <p>@Model.PinDescription</p>
+    }
+    else
+    {
+                <p>No desc</p>
+    }
+    </div> -->
+    <!--This is a hidden form to assign a pin ID to when a pin is selected by the user to retrieve pin data to be displayed.
         The input named handler is needed to navigate to correct OnGet() method as asp.pages-handler can only be used on POST.
     -->
     <form id="GetPinDataForm" method="get" style="display: none;">
@@ -96,7 +96,7 @@
         <input id="handler" name="Handler" value="PinData" />
         <button type="submit" class="btn btn-primary">Submit PinID</button>
     </form>
-    
+
     <script>
         var LoadedPins = [];
         //Script to add all pins on map upon page loading in
@@ -111,6 +111,7 @@
 
                             marker.on('click', function (e) {
                                 var pinInfo = {
+                                    owner: pin.owner,
                                     title: e.title,
                                     description: e.description,
                                     latitude: e.latlng.lat,
@@ -123,6 +124,18 @@
                                     document.getElementById('info').innerHTML = '<b>Created by: ' + pin.owner + '</br>Title: ' + pin.title + '</b><br>Description: ' + pin.description + '<br><img src="' + pin.ImageLink + '" alt="' + pinInfo.title + '" style="max-width: 100%; height: auto;">';
                                 else
                                     document.getElementById('info').innerHTML = '<b>Created by: ' + pin.owner + '</br>Title: ' + pin.title + '</b><br>Description: ' + pin.description;
+                                
+
+                                var currentUser = document.getElementById('currentUser').getAttribute('dataUsername');
+                                var removeButton = document.getElementById('removePinButton');
+                                if (pinInfo.owner === currentUser) {
+                                    removeButton.style.display = 'block';
+                                    removeButton.onclick = function () { removePin(pinInfo.latitude, pinInfo.longitude); };
+                                } else {
+                                    removeButton.style.display = 'none';
+                                    console.log(currentUser)
+                                    console.log(pinInfo.owner)
+                                }
                             });
 
                             LoadedPins.push(marker);
@@ -145,7 +158,7 @@
 
         });
 
-        
+
     </script>
 
 

@@ -40,33 +40,6 @@ namespace WebApplication1testingRazor.Pages
         }
 
 
-        //POST method for receiving pin data and saving to file.
-        /*public IActionResult OnPost(string owner, string latitude, string longitude, string title, string description, string imageLink)
-        {
-            Console.WriteLine("reached onpostthroughAJAX");
-
-            double lat = Convert.ToDouble(latitude, CultureInfo.InvariantCulture);
-            double lon = Convert.ToDouble(longitude, CultureInfo.InvariantCulture);
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data", "pinLocations.json");
-            List<MapPin> mapPins = new List<MapPin>();
-            MapPin mapPin = new MapPin(owner, lat, lon, title, description, "placeholder_imagelink");
-
-            //Get all pins from file and deserialize from JSON to list of MapPin objects.
-            if (System.IO.File.Exists(filePath))
-            {
-                var jsonData = System.IO.File.ReadAllText(filePath);
-                mapPins = JsonConvert.DeserializeObject<List<MapPin>>(jsonData) ?? new List<MapPin>();
-            }
-
-            //Add new pin to list and write all back to file.
-            mapPins.Add(new MapPin(owner,lat,lon,title,description,imageLink));
-            string newJsonData = JsonConvert.SerializeObject(mapPins, Formatting.Indented);
-            System.IO.File.WriteAllText(filePath, newJsonData);
-
-            return new JsonResult(mapPins);
-        }*/
-
-
         public void OnPost([FromBody] MapPin pinData)
         {
             
@@ -91,17 +64,6 @@ namespace WebApplication1testingRazor.Pages
 
         }
 
-        //GET method for retriving Pin data.
-        /*public void OnGetPinData(string id)
-        {
-            Console.WriteLine("Reached OnGetPinData method");
-
-            //TODO Get real pindata here
-
-            PinTitle = "PinTitle";
-            PinDescription = "PinDesc";
-        }*/
-
 
         public IActionResult OnGetAllPinData()
         {
@@ -118,6 +80,37 @@ namespace WebApplication1testingRazor.Pages
             }
 
             return new JsonResult(mapPins);
+        }
+
+        public IActionResult OnPostRemovePin([FromBody] RemovePinRequest removePinRequest)
+        {
+            var user = User.Identity.Name;
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data", "pinLocations.json");
+            List<MapPin> mapPins = new List<MapPin>();
+
+            if (System.IO.File.Exists(filePath))
+            {
+                var jsonData = System.IO.File.ReadAllText(filePath);
+                mapPins = JsonConvert.DeserializeObject<List<MapPin>>(jsonData) ?? new List<MapPin>();
+            }
+
+            var pinToRemove = mapPins.FirstOrDefault(p => p.Owner == user && p.Latitude == removePinRequest.Latitude && p.Longitude == removePinRequest.Longitude);
+            if (pinToRemove != null)
+            {
+                mapPins.Remove(pinToRemove);
+                string newJsonData = JsonConvert.SerializeObject(mapPins, Formatting.Indented);
+                System.IO.File.WriteAllText(filePath, newJsonData);
+                return new JsonResult(new { success = true });
+            }
+
+            return new JsonResult(new { success = false, message = "Pin not found or you do not have permission to remove it." });
+        }
+
+
+        public class RemovePinRequest
+        {
+            public double Latitude { get; set; }
+            public double Longitude { get; set; }
         }
     }
 }

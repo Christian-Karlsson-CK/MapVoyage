@@ -40,5 +40,11 @@
     "Username": "rebe",
     "PasswordHash": "7UD8c0pt2yZJmYK7NTQS1VTggU8/okmax3bF3D2g6UA=",
     "Salt": "jNrUl9MEL5yFQwbGtkBRJQ=="
+  },
+  {
+    "UserId": "95c16c32-8601-4013-9b84-b83c8caa1e33",
+    "Username": "asd",
+    "PasswordHash": "S9MZF9hOdbr34HCqCjILl7sZNGW4OMgn2TWqrZuupwQ=",
+    "Salt": "26PD/GKea4lfADt/pS9QJg=="
   }
 ]
