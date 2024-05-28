@@ -1,18 +1,34 @@
 [
-    {
-        "Owner": "Someone",
-        "Longitude": 15.0,
-        "Latitude": 58.0,
-        "Title": "a place",
-        "Description": "desc",
-        "ImageLink": null
-    },
-    {
-        "Owner": "Someoneelse",
-        "Longitude": 15.1,
-        "Latitude": 58.1,
-        "Title": "another place",
-        "Description": "some area",
-        "ImageLink": null
-    }
+  {
+    "Owner": "Someone",
+    "Longitude": 15.0,
+    "Latitude": 58.0,
+    "Title": "a place",
+    "Description": "desc",
+    "ImageLink": null
+  },
+  {
+    "Owner": "Someoneelse",
+    "Longitude": 15.1,
+    "Latitude": 58.1,
+    "Title": "another place",
+    "Description": "some area",
+    "ImageLink": null
+  },
+  {
+    "Owner": "rebe",
+    "Longitude": 17.31967750855733,
+    "Latitude": 59.04903113682644,
+    "Title": "Gnesta",
+    "Description": "test",
+    "ImageLink": null
+  },
+  {
+    "Owner": "rebe",
+    "Longitude": 16.67918630322161,
+    "Latitude": 59.31602431525982,
+    "Title": "flygplats",
+    "Description": "",
+    "ImageLink": null
+  }
 ]
