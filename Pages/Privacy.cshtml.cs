@@ -43,6 +43,7 @@ namespace WebApplication1testingRazor.Pages
         public void OnPost([FromBody] MapPin pinData)
         {
             
+            
             var user = User.Identity.Name;
             double lat = Convert.ToDouble(pinData.Latitude, CultureInfo.InvariantCulture);
             double lon = Convert.ToDouble(pinData.Longitude, CultureInfo.InvariantCulture);
@@ -131,29 +132,29 @@ namespace WebApplication1testingRazor.Pages
             var user = User.Identity.Name;
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data", "pinLocations.json");
             List<MapPin> mapPins = new List<MapPin>();
-            
-                if (System.IO.File.Exists(filePath))
-      {
-          var jsonData = System.IO.File.ReadAllText(filePath);
-          mapPins = JsonConvert.DeserializeObject<List<MapPin>>(jsonData) ?? new List<MapPin>();
-      }
 
-      var pinToRemove = mapPins.FirstOrDefault(p => p.Owner == user && p.Latitude == removePinRequest.Latitude && p.Longitude == removePinRequest.Longitude);
-      if (pinToRemove != null)
-      {
-          mapPins.Remove(pinToRemove);
-          string newJsonData = JsonConvert.SerializeObject(mapPins, Formatting.Indented);
-          System.IO.File.WriteAllText(filePath, newJsonData);
-          return new JsonResult(new { success = true });
-      }
+            if (System.IO.File.Exists(filePath))
+            {
+                var jsonData = System.IO.File.ReadAllText(filePath);
+                mapPins = JsonConvert.DeserializeObject<List<MapPin>>(jsonData) ?? new List<MapPin>();
+            }
 
-    return new JsonResult(new { success = false, message = "Pin not found or you do not have permission to remove it." });
-}
+            var pinToRemove = mapPins.FirstOrDefault(p => p.Owner == user && p.Latitude == removePinRequest.Latitude && p.Longitude == removePinRequest.Longitude);
+            if (pinToRemove != null)
+            {
+                mapPins.Remove(pinToRemove);
+                string newJsonData = JsonConvert.SerializeObject(mapPins, Formatting.Indented);
+                System.IO.File.WriteAllText(filePath, newJsonData);
+                return new JsonResult(new { success = true });
+            }
+
+            return new JsonResult(new { success = false, message = "Pin not found or you do not have permission to remove it." });
+        }
         public class RemovePinRequest
         {
             public double Latitude { get; set; }
-            public double Longitude { get; set;}
-         }
+            public double Longitude { get; set; }
+        }
 
         public IActionResult OnGetUserView(string loggedinUser)
         {
@@ -162,11 +163,11 @@ namespace WebApplication1testingRazor.Pages
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data", "users.json");
             List<User> users = new List<User>();
 
-                if (System.IO.File.Exists(filePath))
-                {
-                    var jsonData = System.IO.File.ReadAllText(filePath);
-                    users = JsonConvert.DeserializeObject<List<User>>(jsonData) ?? new List<User>();
-                }
+            if (System.IO.File.Exists(filePath))
+            {
+                var jsonData = System.IO.File.ReadAllText(filePath);
+                users = JsonConvert.DeserializeObject<List<User>>(jsonData) ?? new List<User>();
+            }
 
 
             var savedUser = users.FirstOrDefault(u => u.Username == loggedinUser);
@@ -181,7 +182,7 @@ namespace WebApplication1testingRazor.Pages
                 Console.WriteLine($"Sending: {userViewData}");
             }
 
-            
+
             return new JsonResult(userViewData);
 
         }
