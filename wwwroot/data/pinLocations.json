@@ -17,17 +17,25 @@
   },
   {
     "Owner": "rebe",
-    "Longitude": 17.31967750855733,
-    "Latitude": 59.04903113682644,
-    "Title": "Gnesta",
-    "Description": "test",
+    "Longitude": 16.67918630322161,
+    "Latitude": 59.31602431525982,
+    "Title": "flygplats",
+    "Description": "",
     "ImageLink": null
   },
   {
     "Owner": "rebe",
-    "Longitude": 16.67918630322161,
-    "Latitude": 59.31602431525982,
-    "Title": "flygplats",
+    "Longitude": 14.470350582412255,
+    "Latitude": 58.01919149692392,
+    "Title": "Badhus",
+    "Description": "",
+    "ImageLink": null
+  },
+  {
+    "Owner": "rebe",
+    "Longitude": 17.40646389209642,
+    "Latitude": 59.013698507212304,
+    "Title": "Huskvarn",
     "Description": "",
     "ImageLink": null
   }

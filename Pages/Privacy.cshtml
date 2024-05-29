@@ -4,6 +4,7 @@
     // Check if user is authenticated.If they are, it assigns their name to username. 
     // If not, it assigns the string "NotCurrentUser" to username.
     var username = User.Identity.IsAuthenticated ? User.Identity.Name : "NotCurrentUser";
+    var loadedPins = System.IO.File.ReadAllText("wwwroot/data/pinLocations.json");
 }
 <h1>@ViewData["Title"]</h1>
 
@@ -25,7 +26,7 @@
         <input type="text" id="searchInput" placeholder="Search..." />
         <button onclick="searchLocation()">Search</button>
         <select id="categoryDropdown" name="dropdown">
-            <option value="all">All</option>
+            <option value="">All Locations</option>
             <option value="pins">Pins</option>
         </select>
         
@@ -48,7 +49,7 @@
     </div>
 
     <script src="~/js/mapView.js"></script>
-    <script src="~/js/search.js"></script>
+   
 
     <!-- This is a hidden div and a custom data attribute (@username) that stores the username -->
     <div id="currentUser" dataUsername="@username" style="display: none;"></div> 
@@ -97,6 +98,7 @@
     
     <script>
         var LoadedPins = [];
+        var LoadedPins = @Html.Raw(loadedPins);
         //Script to add all pins on map upon page loading in
         document.addEventListener('DOMContentLoaded', (event) => {
             fetch('/Privacy?handler=AllPinData')
@@ -145,7 +147,7 @@
 
         
     </script>
-
+    <script src="~/js/search.js"></script>
 
 </body>
 </html>

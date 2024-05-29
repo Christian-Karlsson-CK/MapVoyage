@@ -1,38 +1,53 @@
-﻿// doesn't work yet
-var LoadedPins = [];
-// Function to load pins from JSON file
-function loadPins() {
-    fetch('\wwwroot\data\pinLocations.json')
-        .then(response => response.json())
-        .then(data => {
-            LoadedPins = data;
-            data.forEach(pin => {
-                var marker = L.marker([pin.lat, pin.lng]).addTo(map).bindPopup(pin.Title);
-                markers.push({ marker: marker, category: 'pins' });
-                
-            });
-        })
-        .catch(error => {
-            console.error('Error loading pins:', error);
-        });
+﻿var markers = [];
+
+// Log LoadedPins to verify the data
+console.log('LoadedPins:', LoadedPins);
+
+// Since LoadedPins is already defined in the HTML, you don't need to fetch it again
+LoadedPins.forEach(pin => {
+    if (pin.Latitude && pin.Longitude && pin.Title) {
+        var marker = L.marker([pin.Latitude, pin.Longitude]).addTo(map).bindPopup(pin.Title);
+        markers.push({ marker: marker, category: 'pins' });
+        console.log(`Added pin: ${pin.Title} at (${pin.Latitude}, ${pin.Longitude})`);
+    } else {
+        console.warn('Invalid pin data:', pin);
+    }
+});
+function updateSidebar(pin) {
+    var sidebarContent = `<h3>${pin.Title}</h3>
+                         <p><b>Description:</b> ${pin.Description}</p>
+                         <p><b>Owner:</b> ${pin.Owner}</p>`;
+    if (pin.ImageLink) {
+        sidebarContent += `<img src="${pin.ImageLink}" alt="${pin.Title}" style="max-width:100%;"><br>`;
+    }
+    document.getElementById('info').innerHTML = sidebarContent;
 }
-loadPins();
+
 
 // category works ; the foundpin does not work
 function searchLocation() {
     var searchTerm = document.getElementById('searchInput').value;
     var category = document.getElementById('categoryDropdown').value;
 
+    console.log(`Searching for: ${searchTerm} in category: ${category}`);
+
     if (category === "pins") {
-        var foundPin = LoadedPins.find(pin => pin.Title.toLowerCase().includes(searchTerm));
-        if (foundPin == document.getElementById('pinTitle').value) {
-            map.setView([foundPin.lat, foundPin.lng], 15);
-            L.popup()
-                .setLatLng([foundPin.lat, foundPin.lng])
-                .setContent(foundPin.Title)
-                .openOn(map);
+        // Add more debugging logs
+        console.log('LoadedPins:', LoadedPins);
+
+        var foundPin = LoadedPins.find(pin => {
+            // Debug log to identify the problematic entry
+            console.log('Checking pin:', pin);
+            return pin.Title && pin.Title.toLowerCase().includes(searchTerm);
+        });
+
+        if (foundPin) {
+            console.log(`Found pin: ${foundPin.Title} at (${foundPin.Latitude}, ${foundPin.Longitude})`);
+            map.setView([foundPin.Latitude, foundPin.Longitude], 15);
+            updateSidebar(foundPin);
         } else {
             alert('Destination not found');
+            console.error('Destination not found');
         }
     } else {
         var url = 'https://nominatim.openstreetmap.org/search?format=json&q=' + searchTerm;
