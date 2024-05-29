@@ -9,7 +9,15 @@ var lat, lng;
 var addingPin = false;
 
 function onMapClick(e) {
-    if (!addingPin) return;
+    
+    if (!addingPin) {
+        
+        clearForm();
+        var sideinfo = document.getElementById('info');
+        sideinfo.innerHTML = "Click on a marker to see details here."; 
+        
+        return;
+};
 
     lat = e.latlng.lat;
     lng = e.latlng.lng;
@@ -28,6 +36,9 @@ function clearForm() {
     document.getElementById('pinTitle').value = '';
     document.getElementById('pinDescription').value = '';
     document.getElementById('pinImage').value = '';
+    document.getElementById('ratingForm').style.display = 'none';
+    document.getElementById('removePinButton').style.display = 'none';
+    
 }
 
 function saveMapView() {
