@@ -30,6 +30,25 @@ function clearForm() {
     document.getElementById('pinImage').value = '';
 }
 
+function saveMapView() {
+    var mapCenter = map.getCenter();
+
+    var user = {
+        Username: document.getElementById('currentUser').getAttribute('dataUsername'),
+        ViewLatitude: mapCenter.lat,
+        ViewLongitude: mapCenter.lng,
+        ViewZoomLevel: map.getZoom()
+    };
+
+    $.ajax({
+        url: '/Privacy?handler=SaveMapView',
+        type: 'POST',
+        dataType: 'text',
+        contentType: "application/json",
+        data: JSON.stringify(user)
+    });
+}
+
 document.getElementById('addPinButton').addEventListener('click', function () {
     addingPin = true;
 });
