@@ -50,6 +50,19 @@
         <button id="cancelPin">Cancel Pin</button>
     </div>
 
+    <div id="ratingForm" style="display: none">
+        <label for="pinRating">Rate this location:</label>
+        <select id="pinRating">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        <button id="submitRating">Submit Rating</button>
+    </div>
+
+
     <script src="~/js/mapView.js"></script>
     <script src="~/js/search.js"></script>
 
@@ -101,6 +114,24 @@
         var LoadedPins = [];
         //Script to add all pins on map upon page loading in
         document.addEventListener('DOMContentLoaded', (event) => {
+            var ratingForm = document.getElementById('ratingForm');
+            var submitRatingButton = document.getElementById('submitRating');
+
+            // Funktion för att visa rating-formuläret när en pin klickas
+            function showRatingForm(pin) {
+                ratingForm.style.display = 'block';
+                // Lägg till event listener för submit-knappen
+                submitRatingButton.onclick = function () {
+                    var rating = document.getElementById('pinRating').value;
+                    submitRating(pin.latitude, pin.longitude, rating);
+                };
+            }
+
+            // Funktion för att hantera pin-klick-händelse
+            function onPinClick(pin) {
+                showRatingForm(pin);
+            }
+
             fetch('/Privacy?handler=AllPinData')
                 .then(response => response.json())
                 .then(data => {
@@ -129,7 +160,28 @@
                 })
                 .catch(error => console.error('Error fetching pin data:', error));
 
+            function submitRating(lat, lng, rating) {
+        var ratingData = {
+            Latitude: lat,
+            Longitude: lng,
+            Rating: parseInt(rating)
+        };
 
+        $.ajax({
+            url: '/Privacy?handler=AddRating',
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(ratingData),
+            success: function () {
+                alert('Rating submitted successfully!');
+                ratingForm.style.display = 'none'; // Dölj formuläret efter inskickning
+            },
+            error: function (error) {
+                console.error('Error submitting rating:', error);
+            }
+        });
+    }
         });
 
         //If closing tab save the map view
@@ -141,6 +193,7 @@
         document.getElementById('savePin').addEventListener('click', function () {
             var title = document.getElementById('pinTitle').value;
             var description = document.getElementById('pinDescription').value;
+            var rating = parseInt(document.getElementById('pinRating').value) || 0;
             var imageInput = document.getElementById('pinImage');
             var imageFile = imageInput.files[0];
             var username = document.getElementById('currentUser').getAttribute('dataUsername');
@@ -151,6 +204,7 @@
                 longitude: lng,
                 title: title,
                 description: description,
+                ratings: [{ username: username, rating: rating }],
                 imageLink: null
             };
 
@@ -184,7 +238,6 @@
         //separation for function creating pin so it can be used in different context if needed and ease of reading
         function addPinToMap(pin) {
             var marker = L.marker([pin.latitude, pin.longitude]).addTo(map);
-            console.log("addpintomap reached");
             marker.on('click', function (e) {
                 var pinInfo = {
                     owner: pin.owner,
@@ -192,19 +245,23 @@
                     description: pin.description,
                     latitude: pin.latitude,
                     longitude: pin.longitude,
-                    imageLink: pin.imageLink
+                    imageLink: pin.imageLink,
+                    ratings: pin.ratings || []
                 };
 
-                pinDetailsHtml = `<b>Created by: ${pinInfo.owner}</br>Title: ${pinInfo.title}</b><br>Description: ${pinInfo.description}`;
+                var avgRating = 0;
+                if (pinInfo.ratings.length > 0) {
+                    var totalRating = pinInfo.ratings.reduce((sum, rating) => sum + rating.rating, 0);
+                    avgRating = totalRating / pinInfo.ratings.length;
+                }
+
+                var pinDetailsHtml = `<b>Created by: ${pinInfo.owner}</br>Title: ${pinInfo.title}</b><br>Description: ${pinInfo.description}`;
                 if (pinInfo.imageLink) {
                     pinDetailsHtml += `<br><img src="${pinInfo.imageLink}" alt="${pinInfo.title}" style="max-width: 100%; height: auto;">`;
                 }
-
-                // pinDetailsElement = document.getElementById('info');
-                //var removeButton = document.getElementById('removePinButton');
+                pinDetailsHtml += `<br>Average Rating: ${avgRating.toFixed(1)}/5`; // Visa medelvärdet av betygen
 
                 document.getElementById('info').innerHTML = pinDetailsHtml;
-                
 
                 var currentUser = document.getElementById('currentUser').getAttribute('dataUsername');
                 var removeButton = document.getElementById('removePinButton');
@@ -214,10 +271,38 @@
                 } else {
                     removeButton.style.display = 'none';
                 }
+
+                // Show rating form and handle rating submission
+                document.getElementById('ratingForm').style.display = 'block';
+                document.getElementById('submitRating').onclick = function () {
+                    var rating = parseInt(document.getElementById('pinRating').value);
+                    submitRating(pinInfo.latitude, pinInfo.longitude, rating);
+                };
             });
-          
 
             LoadedPins.push(marker);
+        }
+
+        function submitRating(latitude, longitude, rating) {
+            var ratingData = {
+                Latitude: latitude,
+                Longitude: longitude,
+                Rating: rating
+            };
+
+            $.ajax({
+                url: '/Privacy?handler=AddRating',
+                type: 'POST',
+                dataType: 'text',
+                contentType: "application/json",
+                data: JSON.stringify(ratingData),
+                success: function () {
+                    alert("Rating submitted successfully!");
+                },
+                error: function () {
+                    alert("Failed to submit rating.");
+                }
+            });
         }
 
         // Make a search by tab to search button and press 'Enter' key
@@ -230,11 +315,7 @@
             });
 
         });
-
-
     </script>
-
-
 </body>
 </html>
 

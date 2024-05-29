@@ -1,18 +1,76 @@
 [
-    {
-        "Owner": "Someone",
-        "Longitude": 15.0,
-        "Latitude": 58.0,
-        "Title": "a place",
-        "Description": "desc",
-        "ImageLink": null
-    },
-    {
-        "Owner": "Someoneelse",
-        "Longitude": 15.1,
-        "Latitude": 58.1,
-        "Title": "another place",
-        "Description": "some area",
-        "ImageLink": null
-    }
+  {
+    "Owner": "Someone",
+    "Longitude": 15.0,
+    "Latitude": 58.0,
+    "Title": "a place",
+    "Description": "desc",
+    "Ratings": [],
+    "ImageLink": null
+  },
+  {
+    "Owner": "Someoneelse",
+    "Longitude": 15.1,
+    "Latitude": 58.1,
+    "Title": "another place",
+    "Description": "some area",
+    "Ratings": [],
+    "ImageLink": null
+  },
+  {
+    "Owner": "Adam",
+    "Longitude": 11.996142976345256,
+    "Latitude": 57.710016656706465,
+    "Title": "GBG",
+    "Description": "Götet",
+    "Ratings": [
+      {
+        "Username": "Adam",
+        "Rating": 4
+      }
+    ],
+    "ImageLink": null
+  },
+  {
+    "Owner": "Adam",
+    "Longitude": 12.852737133467372,
+    "Latitude": 56.67325677979948,
+    "Title": "Halmstad",
+    "Description": "Vem bor här?",
+    "Ratings": [
+      {
+        "Username": "Adam",
+        "Rating": 5
+      },
+      {
+        "Username": "Test",
+        "Rating": 4
+      },
+      {
+        "Username": "Test1",
+        "Rating": 4
+      },
+      {
+        "Username": "Test2",
+        "Rating": 4
+      },
+      {
+        "Username": "Test3",
+        "Rating": 4
+      },
+      {
+        "Username": "Test4",
+        "Rating": 5
+      },
+      {
+        "Username": "Test5",
+        "Rating": 4
+      },
+      {
+        "Username": "Test6",
+        "Rating": 5
+      }
+    ],
+    "ImageLink": null
+  }
 ]
