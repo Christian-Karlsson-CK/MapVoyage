@@ -21,18 +21,6 @@
     "UserId": "d8357985-3886-4f9b-836a-0de567c1e32c",
     "Username": "rebe",
     "PasswordHash": "7UD8c0pt2yZJmYK7NTQS1VTggU8/okmax3bF3D2g6UA=",
-    "Salt": "jNrUl9MEL5yFQwbGtkBRJQ==",
-    "ViewLatitude": 58.0,
-    "ViewLongitude": 13.0,
-    "ViewZoomLevel": 13
-  },
-  {
-    "UserId": "74ab81f4-5603-460f-b69a-c9a821941fe9",
-    "Username": "asd",
-    "PasswordHash": "kRpYkUcyJvXeAy9Fp36So7TMSbgy+xBHM8E66wQ5R20=",
-    "Salt": "2uclbDXhVyU6glQdW0d8+w==",
-    "ViewLatitude": 58.28856112537133,
-    "ViewLongitude": 14.855918884277344,
-    "ViewZoomLevel": 11
+
   }
 ]
