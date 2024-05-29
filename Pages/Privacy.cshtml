@@ -151,7 +151,7 @@
                 longitude: lng,
                 title: title,
                 description: description,
-                imageLink: null
+                
             };
 
             if (imageFile) {
@@ -159,32 +159,58 @@
                 reader.onload = function (event) {
                     newPin.imageLink = event.target.result;
                     addPinToMap(newPin);
+                    savePinData(newPin);
+                    
                 };
                 reader.readAsDataURL(imageFile);
             } else {
                 addPinToMap(newPin);
+                savePinData(newPin);
+                
             }
 
-            console.log("savePin reached");
+            //console.log("savePin reached");
+            
 
             // Ajax POST request to send new pin data
-            $.ajax({
+           /* $.ajax({
                 url: '/Privacy',
                 type: 'POST',
                 dataType: 'text',
                 contentType: "application/json",
                 data: JSON.stringify(newPin)
-            });
+            });*/
 
             var pinForm = document.getElementById('pinCreateForm');
             pinForm.style.display = 'none';
             clearForm();
             addingPin = false;
         });
+
+        function savePinData(pin) {
+            // Ajax POST request to send new pin data
+            $.ajax({
+                url: '/Privacy',
+                type: 'POST',
+                dataType: 'text',
+                contentType: "application/json",
+                data: JSON.stringify(pin),
+                success: function (response) {
+                    console.log("Pin data saved successfully:", response);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error saving pin data:", error);
+                }
+            });
+        }
+
+        
         //separation for function creating pin so it can be used in different context if needed and ease of reading
         function addPinToMap(pin) {
             var marker = L.marker([pin.latitude, pin.longitude]).addTo(map);
             console.log("addpintomap reached");
+            console.log(pin.owner);
+            console.log(pin.imageLink);
             marker.on('click', function (e) {
                 var pinInfo = {
                     owner: pin.owner,
@@ -195,7 +221,7 @@
                     imageLink: pin.imageLink
                 };
 
-                pinDetailsHtml = `<b>Created by: ${pinInfo.owner}</br>Title: ${pinInfo.title}</b><br>Description: ${pinInfo.description}`;
+                var pinDetailsHtml = `<b>Created by: ${pinInfo.owner}</br>Title: ${pinInfo.title}</b><br>Description: ${pinInfo.description}`;
                 if (pinInfo.imageLink) {
                     pinDetailsHtml += `<br><img src="${pinInfo.imageLink}" alt="${pinInfo.title}" style="max-width: 100%; height: auto;">`;
                 }
