@@ -44,12 +44,12 @@
     "Username": "asd",
     "PasswordHash": "Ivr7RQ9yWrc6Pt+TlDdgUvy0iZYZ9HWD88g8RefvSZc=",
     "Salt": "8tECc0eEjpXWAhVdkyfLqg==",
-    "ViewLatitude": 0.0,
-    "ViewLongitude": 0.0,
-    "ViewZoomLevel": 13,
+    "ViewLatitude": 58.03718871323224,
+    "ViewLongitude": 13.772255011110046,
+    "ViewZoomLevel": 7,
     "FavoriteList": [
-      "202405301021475675230",
-      "202405301113195982690"
+      "202405301432062463411",
+      "202405301432211182759"
     ]
   }
 ]
