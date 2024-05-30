@@ -156,7 +156,6 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data) {
-                        console.log(data);
                         map.setView([data.viewLatitude, data.viewLongitude], data.viewZoomLevel); // Update map view
                         console.log('Setting saved view.');
                         
@@ -171,26 +170,59 @@
                 .catch(error => console.error('Error fetching pin data:', error));
 
             function addToFavoritesList(item) { 
-                // Create a new div element for the favorite item
-                const divHolder = document.createElement('div');
-                divHolder.className = 'favorite-item';
+                var pinData = {
+                    Latitude: '',
+                    Longitude: '',
+                    Title: ''
+                };
+                //Make a fetch to get pin title and coordinates
+                const params = new URLSearchParams();
+                params.append('pinId', item);
+                console.log('before fetch');
+                fetch('/Privacy?handler=PinData&' + params.toString())
+                    .then(response => response.json())
+                    .then(pin => {
+                        if (pin) {
+                            console.log('receivedpinDATA');
+                            pinData.Latitude = pin.latitude;
+                            pinData.Longitude = pin.longitude;
+                            pinData.Title = pin.title;
 
-                // Create the span element for the item text
-                const textElement = document.createElement('span');
-                textElement.className = 'item-text';
-                textElement.textContent = item;
+                            // Create a new div element for the favorite item
+                            const divHolder = document.createElement('div');
+                            divHolder.className = 'favorite-item';
 
-                // Create the remove button
-                const removeButton = document.createElement('button');
-                removeButton.className = 'remove-button';
-                removeButton.textContent = 'Remove';
-                removeButton.onclick = function () { removeItem(this, item); };
+                            // Create the span element for the item text
+                            const textElement = document.createElement('span');
+                            textElement.className = 'item-text';
+                            textElement.textContent = pinData.Title;
 
-                // Append the text and button to the new item
-                divHolder.appendChild(textElement);
-                divHolder.appendChild(removeButton);
+                            // Create the remove button
+                            const removeButton = document.createElement('button');
+                            removeButton.className = 'remove-button';
+                            removeButton.textContent = 'Remove';
+                            removeButton.onclick = function () { removeItem(this, item); };
 
-                document.getElementById('favorite-list').appendChild(divHolder);
+                            // Append the text and button to the new item
+                            divHolder.appendChild(textElement);
+                            divHolder.appendChild(removeButton);
+
+                            divHolder.addEventListener('click', function () {
+                                var lat = parseFloat(pin.latitude);
+                                var lng = parseFloat(pin.longitude);
+                                map.setView([lat, lng], 13);
+                            });
+
+                            document.getElementById('favorite-list').appendChild(divHolder);
+
+                        } else {
+                            console.log('No saved pin found.');
+                        }
+                    })
+                    .catch(error => console.error('Error fetching pin data:', error));
+
+                
+                
             }
 
             function removeItem(button, id) {

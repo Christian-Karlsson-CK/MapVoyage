@@ -11,6 +11,8 @@
         public List<UserRating> Ratings{ get; set; } = new List<UserRating>();
         public string ImageLink { get; set; }
 
+        public MapPin() { }
+
         public MapPin(string owner, double latitude, double longitude, string title, string description, string imageLink)
         {   
             Owner = owner;

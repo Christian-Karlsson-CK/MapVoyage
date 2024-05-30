@@ -308,5 +308,36 @@ namespace WebApplication1testingRazor.Pages
             System.IO.File.WriteAllText(filePath, updatedJsonData);
 
         }
+
+        public IActionResult OnGetPinData(string pinId)
+        {
+            Console.WriteLine("OnGetPinData");
+
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data", "pinLocations.json");
+            List<MapPin> mapPins = new List<MapPin>();
+
+            if (System.IO.File.Exists(filePath))
+            {
+                var jsonData = System.IO.File.ReadAllText(filePath);
+                mapPins = JsonConvert.DeserializeObject<List<MapPin>>(jsonData) ?? new List<MapPin>();
+            }
+
+            var savedPin = mapPins.FirstOrDefault(u => u.Id == pinId);
+            
+            MapPin mapPin = new MapPin();
+
+            if (savedPin != null)
+            {
+                // Update the user's properties
+                mapPin.Latitude = savedPin.Latitude;
+                mapPin.Longitude = savedPin.Longitude;
+                mapPin.Title = savedPin.Title;
+                Console.WriteLine($"Sending: {mapPin}");
+            }
+
+
+            return new JsonResult(mapPin);
+
+        }
     }
 }
