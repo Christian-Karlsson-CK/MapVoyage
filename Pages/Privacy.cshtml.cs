@@ -44,6 +44,7 @@ namespace WebApplication1testingRazor.Pages
         public void OnPost([FromBody] MapPin pinData)
         {
             
+            
             var user = User.Identity.Name;
             double lat = Convert.ToDouble(pinData.Latitude, CultureInfo.InvariantCulture);
             double lon = Convert.ToDouble(pinData.Longitude, CultureInfo.InvariantCulture);
@@ -143,14 +144,14 @@ namespace WebApplication1testingRazor.Pages
                 mapPins = JsonConvert.DeserializeObject<List<MapPin>>(jsonData) ?? new List<MapPin>();
             }
 
-            var pinToRemove = mapPins.FirstOrDefault(p => p.Owner == user && p.Latitude == removePinRequest.Latitude && p.Longitude == removePinRequest.Longitude);
-            if (pinToRemove != null)
-            {
-                mapPins.Remove(pinToRemove);
-                string newJsonData = JsonConvert.SerializeObject(mapPins, Formatting.Indented);
-                System.IO.File.WriteAllText(filePath, newJsonData);
-                return new JsonResult(new { success = true });
-            }
+      var pinToRemove = mapPins.FirstOrDefault(p => p.Owner == user && p.Latitude == removePinRequest.Latitude && p.Longitude == removePinRequest.Longitude);
+      if (pinToRemove != null)
+      {
+          mapPins.Remove(pinToRemove);
+          string newJsonData = JsonConvert.SerializeObject(mapPins, Formatting.Indented);
+          System.IO.File.WriteAllText(filePath, newJsonData);
+          return new JsonResult(new { success = true });
+      }
 
             return new JsonResult(new { success = false, message = "Pin not found or you do not have permission to remove it." });
         }
