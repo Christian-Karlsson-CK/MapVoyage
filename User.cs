@@ -9,6 +9,7 @@
         public double ViewLatitude { get; set; }
         public double ViewLongitude { get; set; }
         public int ViewZoomLevel { get; set; }
+        public List<string> FavoriteList { get; set; }
 
         public User() { }
 
@@ -21,6 +22,7 @@
             ViewLatitude = 58.0;
             ViewLongitude = 13.0;
             ViewZoomLevel = 13;
+            FavoriteList = new List<string>();
         }
 
         public override string ToString()

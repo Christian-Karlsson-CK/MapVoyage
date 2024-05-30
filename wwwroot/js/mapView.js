@@ -99,5 +99,15 @@ function removePin(lat, lng) {
         .catch(error => console.error('Error removing pin:', error));
 }
 
+function addToFavorites(PinId) {
+    $.ajax({
+        url: '/Privacy?handler=AddToFavorites',
+        type: 'POST',
+        dataType: 'text',
+        contentType: "application/json",
+        data: JSON.stringify(PinId)
+    });
+}
+
 
 map.on('click', onMapClick);

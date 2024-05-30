@@ -1,5 +1,6 @@
 [
   {
+    "Id": "202405300956277927349",
     "Owner": "Someone",
     "Longitude": 15.0,
     "Latitude": 58.0,
@@ -9,6 +10,7 @@
     "ImageLink": null
   },
   {
+    "Id": "202405300956277922989",
     "Owner": "Someoneelse",
     "Longitude": 15.1,
     "Latitude": 58.1,
@@ -18,6 +20,7 @@
     "ImageLink": null
   },
   {
+    "Id": "202405300956277936466",
     "Owner": "Adam",
     "Longitude": 11.996142976345256,
     "Latitude": 57.710016656706465,
@@ -32,6 +35,7 @@
     "ImageLink": null
   },
   {
+    "Id": "202405300956277937251",
     "Owner": "Adam",
     "Longitude": 12.852737133467372,
     "Latitude": 56.67325677979948,
@@ -71,6 +75,91 @@
         "Rating": 5
       }
     ],
+    "ImageLink": null
+  },
+  {
+    "Id": "202405300956277935891",
+    "Owner": "asd",
+    "Longitude": 12.967546388420448,
+    "Latitude": 58.006733575648475,
+    "Title": "asdf",
+    "Description": "asdf",
+    "Ratings": [
+      {
+        "Username": "asd",
+        "Rating": 1
+      }
+    ],
+    "ImageLink": null
+  },
+  {
+    "Id": "202405301018044136960",
+    "Owner": "asd",
+    "Longitude": 13.765003379546535,
+    "Latitude": 58.37867853932655,
+    "Title": "asdfg",
+    "Description": "afdg",
+    "Ratings": [
+      {
+        "Username": "asd",
+        "Rating": 1
+      }
+    ],
+    "ImageLink": null
+  },
+  {
+    "Id": "202405301021475675230",
+    "Owner": "asd",
+    "Longitude": 13.385872240792674,
+    "Latitude": 58.072066597147945,
+    "Title": "asd",
+    "Description": "asdf",
+    "Ratings": [
+      {
+        "Username": "asd",
+        "Rating": 1
+      }
+    ],
+    "ImageLink": null
+  },
+  {
+    "Id": "202405301113195982690",
+    "Owner": "asd",
+    "Longitude": 13.452219613754862,
+    "Latitude": 57.885657378262415,
+    "Title": "rthfgh",
+    "Description": "dhdfgh",
+    "Ratings": [
+      {
+        "Username": "asd",
+        "Rating": 1
+      }
+    ],
+    "ImageLink": null
+  },
+  {
+    "Id": "202405301114180324418",
+    "Owner": "asd",
+    "Longitude": 15.067038722237564,
+    "Latitude": 58.31318598637737,
+    "Title": "rsrst",
+    "Description": "rthgrtg",
+    "Ratings": [
+      {
+        "Username": "asd",
+        "Rating": 1
+      }
+    ],
+    "ImageLink": null
+  },
+  {
+    "Id": "202405301124219949192",
+    "Owner": "asd",
+    "Longitude": 0.0,
+    "Latitude": 0.0,
+    "Title": null,
+    "Description": null,
+    "Ratings": [],
     "ImageLink": null
   }
 ]
