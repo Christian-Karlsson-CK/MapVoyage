@@ -6,7 +6,8 @@
     "Salt": "ZD+MlIv4/SX4mBBQBVb1cw==",
     "ViewLatitude": 57.80965135970153,
     "ViewLongitude": 14.057006835937502,
-    "ViewZoomLevel": 7
+    "ViewZoomLevel": 7,
+    "FavoriteList": null
   },
   {
     "UserId": "29e707c7-e417-4000-b19b-75db0cf9fc6e",
@@ -15,7 +16,8 @@
     "Salt": "vf41LX3dzTsbfPeRTjPAYQ==",
     "ViewLatitude": 57.99645479967,
     "ViewLongitude": 18.461185516008676,
-    "ViewZoomLevel": 5
+    "ViewZoomLevel": 5,
+    "FavoriteList": null
   },
   {
     "UserId": "d8357985-3886-4f9b-836a-0de567c1e32c",
@@ -24,7 +26,8 @@
     "Salt": null,
     "ViewLatitude": 0.0,
     "ViewLongitude": 0.0,
-    "ViewZoomLevel": 0
+    "ViewZoomLevel": 0,
+    "FavoriteList": null
   },
   {
     "UserId": "940976be-328a-4e15-83d9-4064974bfc9d",
@@ -33,6 +36,20 @@
     "Salt": "lXRt1qAmDSpZSBnCoN2jEA==",
     "ViewLatitude": 57.77451753559619,
     "ViewLongitude": 13.848649033992906,
-    "ViewZoomLevel": 7
+    "ViewZoomLevel": 7,
+    "FavoriteList": null
+  },
+  {
+    "UserId": "95d4628c-0e01-4516-92b2-219470048cc0",
+    "Username": "asd",
+    "PasswordHash": "Ivr7RQ9yWrc6Pt+TlDdgUvy0iZYZ9HWD88g8RefvSZc=",
+    "Salt": "8tECc0eEjpXWAhVdkyfLqg==",
+    "ViewLatitude": 58.03718871323224,
+    "ViewLongitude": 13.772255011110046,
+    "ViewZoomLevel": 7,
+    "FavoriteList": [
+      "202405301432062463411",
+      "202405301432211182759"
+    ]
   }
 ]

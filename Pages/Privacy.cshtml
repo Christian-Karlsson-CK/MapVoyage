@@ -36,6 +36,7 @@
         <!--<input type="text" id="searchBar" placeholder="Search for pins..." oninput="filterPins()">-->
         <div id="info">Click on a marker to see details here.</div>
         <button id="removePinButton" style="display:none;" onclick="removePin()">Remove Pin</button>
+        <button id="addToFavoritesButton" style="display:none;" onclick="addToFavorites()">Add to favorites</button>
     </div>
 
 
@@ -65,6 +66,11 @@
 
     <script src="~/js/mapView.js"></script>
     <script src="~/js/search.js"></script>
+
+    <!-- The favorite list -->
+    <div id="favorite-list" "class="container">
+        <h3>My Favorite List</h3>
+    </div>
 
     <!-- This is a hidden div and a custom data attribute (@username) that stores the username -->
     <div id="currentUser" dataUsername="@username" style="display: none;"></div>
@@ -146,19 +152,93 @@
             const params = new URLSearchParams();
             params.append('loggedinUser', document.getElementById('currentUser').getAttribute('dataUsername'));
 
-            fetch('/Privacy?handler=UserView&' + params.toString())
+            fetch('/Privacy?handler=UserViewAndFavorites&' + params.toString())
                 .then(response => response.json())
                 .then(data => {
                     if (data) {
-                        console.log(data);
                         map.setView([data.viewLatitude, data.viewLongitude], data.viewZoomLevel); // Update map view
                         console.log('Setting saved view.');
+                        
+                        data.favoriteList.forEach(addToFavoritesList);
+                        
+                        
                     } else {
                         map.setView([58.0, 13.0], 13); // Set default view
                         console.log('No saved view, setting default.');
                     }
                 })
                 .catch(error => console.error('Error fetching pin data:', error));
+
+            function addToFavoritesList(item) { 
+                var pinData = {
+                    Latitude: '',
+                    Longitude: '',
+                    Title: ''
+                };
+                //Make a fetch to get pin title and coordinates
+                const params = new URLSearchParams();
+                params.append('pinId', item);
+                console.log('before fetch');
+                fetch('/Privacy?handler=PinData&' + params.toString())
+                    .then(response => response.json())
+                    .then(pin => {
+                        if (pin) {
+                            console.log('receivedpinDATA');
+                            pinData.Latitude = pin.latitude;
+                            pinData.Longitude = pin.longitude;
+                            pinData.Title = pin.title;
+
+                            // Create a new div element for the favorite item
+                            const divHolder = document.createElement('div');
+                            divHolder.className = 'favorite-item';
+
+                            // Create the span element for the item text
+                            const textElement = document.createElement('span');
+                            textElement.className = 'item-text';
+                            textElement.textContent = pinData.Title;
+
+                            // Create the remove button
+                            const removeButton = document.createElement('button');
+                            removeButton.className = 'remove-button';
+                            removeButton.textContent = 'Remove';
+                            removeButton.onclick = function () { removeItem(this, item); };
+
+                            // Append the text and button to the new item
+                            divHolder.appendChild(textElement);
+                            divHolder.appendChild(removeButton);
+
+                            divHolder.addEventListener('click', function () {
+                                var lat = parseFloat(pin.latitude);
+                                var lng = parseFloat(pin.longitude);
+                                map.setView([lat, lng], 13);
+                            });
+
+                            document.getElementById('favorite-list').appendChild(divHolder);
+
+                        } else {
+                            console.log('No saved pin found.');
+                        }
+                    })
+                    .catch(error => console.error('Error fetching pin data:', error));
+
+                
+                
+            }
+
+            function removeItem(button, id) {
+                const item = button.parentElement;
+                item.remove();
+
+                $.ajax({
+                    url: '/Privacy?handler=RemoveFavorite',
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify(id),
+                });
+
+            }
+
 
             function submitRating(lat, lng, rating) {
         var ratingData = {
@@ -298,6 +378,11 @@
                 } else {
                     removeButton.style.display = 'none';
                 }
+
+                
+                var addToFavoritesButton = document.getElementById('addToFavoritesButton');
+                addToFavoritesButton.style.display = 'block';
+                addToFavoritesButton.onclick = function () { addToFavorites(pin.id); };
 
                 // Show rating form and handle rating submission
                 document.getElementById('ratingForm').style.display = 'block';

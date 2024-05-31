@@ -201,7 +201,7 @@ namespace WebApplication1testingRazor.Pages
             public int Rating { get; set; }
         }
 
-        public IActionResult OnGetUserView(string loggedinUser)
+        public IActionResult OnGetUserViewAndFavorites(string loggedinUser)
         {
             Console.WriteLine("Trying to get UserView");
 
@@ -224,11 +224,119 @@ namespace WebApplication1testingRazor.Pages
                 userViewData.ViewLatitude = savedUser.ViewLatitude;
                 userViewData.ViewLongitude = savedUser.ViewLongitude;
                 userViewData.ViewZoomLevel = savedUser.ViewZoomLevel;
+                userViewData.FavoriteList = savedUser.FavoriteList;
                 Console.WriteLine($"Sending: {userViewData}");
             }
 
             
             return new JsonResult(userViewData);
+
+        }
+
+        public void OnPostAddToFavorites([FromBody] string PinId)
+        {
+
+            Console.WriteLine("savetoFavorites!");
+            Console.WriteLine(PinId);
+
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data", "users.json");
+            List<User> users = new List<User>();
+
+            if (System.IO.File.Exists(filePath))
+            {
+                var jsonData = System.IO.File.ReadAllText(filePath);
+                users = JsonConvert.DeserializeObject<List<User>>(jsonData) ?? new List<User>();
+            }
+
+            var username = User.Identity.Name;
+            var savedUser = users.FirstOrDefault(u => u.Username == username);
+
+            if (savedUser != null)
+            {
+                // Update the user's properties
+                if (!savedUser.FavoriteList.Contains(PinId))
+                {
+                    savedUser.FavoriteList.Add(PinId);
+                    Console.WriteLine("Pin is added as a favorite.");
+                }
+                else
+                {
+                    Console.WriteLine("Pin is already a favorite.");
+                }
+            }
+
+            // Serialize the updated list back to JSON
+            var updatedJsonData = JsonConvert.SerializeObject(users, Formatting.Indented);
+            System.IO.File.WriteAllText(filePath, updatedJsonData);
+
+        }
+
+        public void OnPostRemoveFavorite([FromBody] string PinId)
+        {
+
+            Console.WriteLine("removeFavorite");
+            Console.WriteLine(PinId);
+
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data", "users.json");
+            List<User> users = new List<User>();
+
+            if (System.IO.File.Exists(filePath))
+            {
+                var jsonData = System.IO.File.ReadAllText(filePath);
+                users = JsonConvert.DeserializeObject<List<User>>(jsonData) ?? new List<User>();
+            }
+
+            var username = User.Identity.Name;
+            var savedUser = users.FirstOrDefault(u => u.Username == username);
+
+            if (savedUser != null)
+            {
+                // Update the user's properties
+                if (savedUser.FavoriteList.Contains(PinId))
+                {
+                    savedUser.FavoriteList.Remove(PinId);
+                    Console.WriteLine("Pin is Removed as a favorite.");
+                }
+                else
+                {
+                    Console.WriteLine("Favorite pin not found.");
+                }
+            }
+
+            // Serialize the updated list back to JSON
+            var updatedJsonData = JsonConvert.SerializeObject(users, Formatting.Indented);
+            System.IO.File.WriteAllText(filePath, updatedJsonData);
+
+        }
+
+        public IActionResult OnGetPinData(string pinId)
+        {
+            Console.WriteLine("OnGetPinData");
+
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data", "pinLocations.json");
+            List<MapPin> mapPins = new List<MapPin>();
+
+            if (System.IO.File.Exists(filePath))
+            {
+                var jsonData = System.IO.File.ReadAllText(filePath);
+                mapPins = JsonConvert.DeserializeObject<List<MapPin>>(jsonData) ?? new List<MapPin>();
+            }
+
+            var savedPin = mapPins.FirstOrDefault(u => u.Id == pinId);
+            
+            MapPin mapPin = new MapPin();
+
+            if (savedPin != null)
+            {
+                // Update the user's properties
+                mapPin.Latitude = savedPin.Latitude;
+                mapPin.Longitude = savedPin.Longitude;
+                mapPin.Title = savedPin.Title;
+                Console.WriteLine($"Sending: {mapPin}");
+            }
+
+
+            return new JsonResult(mapPin);
 
         }
     }
